@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "667939635284",
+    "project_id": "kids-info",
+    "storage_bucket": "kids-info.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667939635284:android:8be7ade4d70e5376442dc1",
+        "android_client_info": {
+          "package_name": "com.piotrwezyk.kids_info"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "667939635284-86kvmmstpujmfgabfckg92k3l031cbvd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6Ux0r-45O345EgOxXZ9G5bulyRen6cJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "667939635284-86kvmmstpujmfgabfckg92k3l031cbvd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
