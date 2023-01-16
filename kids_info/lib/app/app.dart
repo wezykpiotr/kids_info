@@ -10,16 +10,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kids Info',
-      localizationsDelegates: const[
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const[
+      supportedLocales: const [
         Locale('en', ''),
         Locale('pl', ''),
       ],
-      theme: ThemeData.dark(),
+
+      
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
+      theme: ThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+      ),
       home: const AuthGate(),
     );
   }
