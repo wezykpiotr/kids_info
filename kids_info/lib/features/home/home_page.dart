@@ -17,7 +17,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint(AppLocalizations.of(context)!.helloWorld);
     return Scaffold(
       appBar: AppBar(
         title: const Text('users collection'),
