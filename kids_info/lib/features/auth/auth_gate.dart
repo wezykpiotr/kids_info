@@ -55,7 +55,6 @@ class _DarkModeSwitchState extends State<DarkModeSwitch> {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ThemeCubit>();
-    // cubit.setTheme();
     return GestureDetector(
       onTap: () {
         setState(() {
