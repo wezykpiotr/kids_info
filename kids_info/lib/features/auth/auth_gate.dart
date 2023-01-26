@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:kids_info/features/theme/cubit/theme_cubit.dart';
-
 import '../home/home_page.dart';
 
 class AuthGate extends StatelessWidget {
