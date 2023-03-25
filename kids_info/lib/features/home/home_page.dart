@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   final User currentUser;
 
   final userQuery =
-      FirebaseFirestore.instance.collection('users').orderBy('displayName');
+      FirebaseFirestore.instance.collection('users').orderBy('email');
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
           query: userQuery,
           itemBuilder: (context, snapshot) {
             Map<String, dynamic> user = snapshot.data();
-            return Text('User name is ${user['displayName']}');
+            return Text('User name is ${user['email']}');
           }),
     );
   }

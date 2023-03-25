@@ -7,6 +7,7 @@ import 'package:mocktail/mocktail.dart';
 class MockThemeCubit extends Mock implements ThemeState {}
 
 void main() {
+  
   late ThemeCubit sut;
 
   setUp(() => {
