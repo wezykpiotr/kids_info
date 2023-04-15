@@ -21,16 +21,17 @@ ChartModel _$ChartModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ChartModel {
   int get month => throw _privateConstructorUsedError;
-  int get p3 => throw _privateConstructorUsedError;
-  int get p5 => throw _privateConstructorUsedError;
-  int get p10 => throw _privateConstructorUsedError;
-  int get p15 => throw _privateConstructorUsedError;
-  int get p25 => throw _privateConstructorUsedError;
-  int get p50 => throw _privateConstructorUsedError;
-  int get p75 => throw _privateConstructorUsedError;
-  int get p85 => throw _privateConstructorUsedError;
-  int get p95 => throw _privateConstructorUsedError;
-  int get p97 => throw _privateConstructorUsedError;
+  double get p3 => throw _privateConstructorUsedError;
+  double get p5 => throw _privateConstructorUsedError;
+  double get p10 => throw _privateConstructorUsedError;
+  double get p15 => throw _privateConstructorUsedError;
+  double get p25 => throw _privateConstructorUsedError;
+  double get p50 => throw _privateConstructorUsedError;
+  double get p75 => throw _privateConstructorUsedError;
+  double get p85 => throw _privateConstructorUsedError;
+  double get p90 => throw _privateConstructorUsedError;
+  double get p95 => throw _privateConstructorUsedError;
+  double get p97 => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,16 +47,17 @@ abstract class $ChartModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int month,
-      int p3,
-      int p5,
-      int p10,
-      int p15,
-      int p25,
-      int p50,
-      int p75,
-      int p85,
-      int p95,
-      int p97});
+      double p3,
+      double p5,
+      double p10,
+      double p15,
+      double p25,
+      double p50,
+      double p75,
+      double p85,
+      double p90,
+      double p95,
+      double p97});
 }
 
 /// @nodoc
@@ -80,6 +82,7 @@ class _$ChartModelCopyWithImpl<$Res, $Val extends ChartModel>
     Object? p50 = null,
     Object? p75 = null,
     Object? p85 = null,
+    Object? p90 = null,
     Object? p95 = null,
     Object? p97 = null,
   }) {
@@ -91,43 +94,47 @@ class _$ChartModelCopyWithImpl<$Res, $Val extends ChartModel>
       p3: null == p3
           ? _value.p3
           : p3 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p5: null == p5
           ? _value.p5
           : p5 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p10: null == p10
           ? _value.p10
           : p10 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p15: null == p15
           ? _value.p15
           : p15 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p25: null == p25
           ? _value.p25
           : p25 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p50: null == p50
           ? _value.p50
           : p50 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p75: null == p75
           ? _value.p75
           : p75 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p85: null == p85
           ? _value.p85
           : p85 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
+      p90: null == p90
+          ? _value.p90
+          : p90 // ignore: cast_nullable_to_non_nullable
+              as double,
       p95: null == p95
           ? _value.p95
           : p95 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       p97: null == p97
           ? _value.p97
           : p97 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ) as $Val);
   }
 }
@@ -142,16 +149,17 @@ abstract class _$$_ChartModelCopyWith<$Res>
   @useResult
   $Res call(
       {int month,
-      int p3,
-      int p5,
-      int p10,
-      int p15,
-      int p25,
-      int p50,
-      int p75,
-      int p85,
-      int p95,
-      int p97});
+      double p3,
+      double p5,
+      double p10,
+      double p15,
+      double p25,
+      double p50,
+      double p75,
+      double p85,
+      double p90,
+      double p95,
+      double p97});
 }
 
 /// @nodoc
@@ -174,6 +182,7 @@ class __$$_ChartModelCopyWithImpl<$Res>
     Object? p50 = null,
     Object? p75 = null,
     Object? p85 = null,
+    Object? p90 = null,
     Object? p95 = null,
     Object? p97 = null,
   }) {
@@ -185,43 +194,47 @@ class __$$_ChartModelCopyWithImpl<$Res>
       null == p3
           ? _value.p3
           : p3 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p5
           ? _value.p5
           : p5 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p10
           ? _value.p10
           : p10 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p15
           ? _value.p15
           : p15 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p25
           ? _value.p25
           : p25 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p50
           ? _value.p50
           : p50 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p75
           ? _value.p75
           : p75 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p85
           ? _value.p85
           : p85 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
+      null == p90
+          ? _value.p90
+          : p90 // ignore: cast_nullable_to_non_nullable
+              as double,
       null == p95
           ? _value.p95
           : p95 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       null == p97
           ? _value.p97
           : p97 // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ));
   }
 }
@@ -230,7 +243,7 @@ class __$$_ChartModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ChartModel implements _ChartModel {
   _$_ChartModel(this.month, this.p3, this.p5, this.p10, this.p15, this.p25,
-      this.p50, this.p75, this.p85, this.p95, this.p97);
+      this.p50, this.p75, this.p85, this.p90, this.p95, this.p97);
 
   factory _$_ChartModel.fromJson(Map<String, dynamic> json) =>
       _$$_ChartModelFromJson(json);
@@ -238,29 +251,31 @@ class _$_ChartModel implements _ChartModel {
   @override
   final int month;
   @override
-  final int p3;
+  final double p3;
   @override
-  final int p5;
+  final double p5;
   @override
-  final int p10;
+  final double p10;
   @override
-  final int p15;
+  final double p15;
   @override
-  final int p25;
+  final double p25;
   @override
-  final int p50;
+  final double p50;
   @override
-  final int p75;
+  final double p75;
   @override
-  final int p85;
+  final double p85;
   @override
-  final int p95;
+  final double p90;
   @override
-  final int p97;
+  final double p95;
+  @override
+  final double p97;
 
   @override
   String toString() {
-    return 'ChartModel(month: $month, p3: $p3, p5: $p5, p10: $p10, p15: $p15, p25: $p25, p50: $p50, p75: $p75, p85: $p85, p95: $p95, p97: $p97)';
+    return 'ChartModel(month: $month, p3: $p3, p5: $p5, p10: $p10, p15: $p15, p25: $p25, p50: $p50, p75: $p75, p85: $p85, p90: $p90, p95: $p95, p97: $p97)';
   }
 
   @override
@@ -277,6 +292,7 @@ class _$_ChartModel implements _ChartModel {
             (identical(other.p50, p50) || other.p50 == p50) &&
             (identical(other.p75, p75) || other.p75 == p75) &&
             (identical(other.p85, p85) || other.p85 == p85) &&
+            (identical(other.p90, p90) || other.p90 == p90) &&
             (identical(other.p95, p95) || other.p95 == p95) &&
             (identical(other.p97, p97) || other.p97 == p97));
   }
@@ -284,7 +300,7 @@ class _$_ChartModel implements _ChartModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, month, p3, p5, p10, p15, p25, p50, p75, p85, p95, p97);
+      runtimeType, month, p3, p5, p10, p15, p25, p50, p75, p85, p90, p95, p97);
 
   @JsonKey(ignore: true)
   @override
@@ -303,16 +319,17 @@ class _$_ChartModel implements _ChartModel {
 abstract class _ChartModel implements ChartModel {
   factory _ChartModel(
       final int month,
-      final int p3,
-      final int p5,
-      final int p10,
-      final int p15,
-      final int p25,
-      final int p50,
-      final int p75,
-      final int p85,
-      final int p95,
-      final int p97) = _$_ChartModel;
+      final double p3,
+      final double p5,
+      final double p10,
+      final double p15,
+      final double p25,
+      final double p50,
+      final double p75,
+      final double p85,
+      final double p90,
+      final double p95,
+      final double p97) = _$_ChartModel;
 
   factory _ChartModel.fromJson(Map<String, dynamic> json) =
       _$_ChartModel.fromJson;
@@ -320,25 +337,27 @@ abstract class _ChartModel implements ChartModel {
   @override
   int get month;
   @override
-  int get p3;
+  double get p3;
   @override
-  int get p5;
+  double get p5;
   @override
-  int get p10;
+  double get p10;
   @override
-  int get p15;
+  double get p15;
   @override
-  int get p25;
+  double get p25;
   @override
-  int get p50;
+  double get p50;
   @override
-  int get p75;
+  double get p75;
   @override
-  int get p85;
+  double get p85;
   @override
-  int get p95;
+  double get p90;
   @override
-  int get p97;
+  double get p95;
+  @override
+  double get p97;
   @override
   @JsonKey(ignore: true)
   _$$_ChartModelCopyWith<_$_ChartModel> get copyWith =>

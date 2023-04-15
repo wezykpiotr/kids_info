@@ -12,7 +12,9 @@ abstract class BoysWeightRemoteRetrofitDataSource {
   factory BoysWeightRemoteRetrofitDataSource(Dio dio) =
       _BoysWeightRemoteRetrofitDataSource;
 
-  @GET("/02a3c6dfde0c")
+
+  
+  @GET("/boys")
   Future<List<ChartModel>> getBoysWeight();
 }
 

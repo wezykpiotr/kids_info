@@ -9,16 +9,17 @@ part of 'chart_model.dart';
 _$_ChartModel _$$_ChartModelFromJson(Map<String, dynamic> json) =>
     _$_ChartModel(
       json['month'] as int,
-      json['p3'] as int,
-      json['p5'] as int,
-      json['p10'] as int,
-      json['p15'] as int,
-      json['p25'] as int,
-      json['p50'] as int,
-      json['p75'] as int,
-      json['p85'] as int,
-      json['p95'] as int,
-      json['p97'] as int,
+      (json['p3'] as num).toDouble(),
+      (json['p5'] as num).toDouble(),
+      (json['p10'] as num).toDouble(),
+      (json['p15'] as num).toDouble(),
+      (json['p25'] as num).toDouble(),
+      (json['p50'] as num).toDouble(),
+      (json['p75'] as num).toDouble(),
+      (json['p85'] as num).toDouble(),
+      (json['p90'] as num).toDouble(),
+      (json['p95'] as num).toDouble(),
+      (json['p97'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$_ChartModelToJson(_$_ChartModel instance) =>
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$_ChartModelToJson(_$_ChartModel instance) =>
       'p50': instance.p50,
       'p75': instance.p75,
       'p85': instance.p85,
+      'p90': instance.p90,
       'p95': instance.p95,
       'p97': instance.p97,
     };

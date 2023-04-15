@@ -1,21 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'boy_model.g.dart';
+part 'boy_model.freezed.dart';
 
-// part 'boy_model.g.dart';
+@freezed
+class BoyModel with _$BoyModel {
+  factory BoyModel(
+    int id,
+    int weight,
+    int age,
+    String name,
+  ) = _BoyModel;
 
-@JsonSerializable()
-class BoyModel {
-  // BoyModel({
-  //   required this.id,
-  //   required this.weight,
-  //   required this.age,
-  //   required this.name,
-  // });
-  // int id;
-  // int weight;
-  // int age;
-  // String name;
-
-
-  //   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
+  factory BoyModel.fromJson(Map<String, dynamic> json) =>
+      _$BoyModelFromJson(json);
 }

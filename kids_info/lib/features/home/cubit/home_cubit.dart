@@ -12,14 +12,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   final ChartRepository chartRepository;
 
-  Future<void> start() async {
+  Future<void> start({required int month}) async {
     emit(
       HomeState(
         status: Status.loading,
       ),
     );
     try {
-      final results = await chartRepository.getBoysModel();
+      final results = await chartRepository.getBoysModel(month);
       emit(
         HomeState(
           status: Status.success,
