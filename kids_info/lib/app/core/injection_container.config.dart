@@ -45,7 +45,7 @@ extension GetItInjectableX on _i1.GetIt {
       () => registerModule.baseUrl,
       instanceName: 'BaseUrl',
     );
-    gh.factory<_i5.AnalyticsCubit>(
+    gh.lazySingleton<_i5.AnalyticsCubit>(
         () => _i5.AnalyticsCubit(gh<_i3.AnalyticsRepository>()));
     gh.lazySingleton<_i6.Dio>(
         () => registerModule.dio(gh<String>(instanceName: 'BaseUrl')));

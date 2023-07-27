@@ -19,10 +19,10 @@ class MyDrawer extends StatelessWidget {
       backgroundColor: Colors.grey[800],
       child: Column(
         children: [
-          DrawerHeader(
+          const DrawerHeader(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Icon(
                   Icons.edit,
                   color: Colors.white,
