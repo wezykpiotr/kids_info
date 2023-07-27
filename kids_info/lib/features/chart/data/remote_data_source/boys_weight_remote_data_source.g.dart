@@ -33,7 +33,7 @@ class _BoysWeightRemoteRetrofitDataSource
     )
             .compose(
               _dio.options,
-              '/boys',
+              '/boys_weight',
               queryParameters: queryParameters,
               data: _data,
             )

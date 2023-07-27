@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:kids_info/data/remote_data_source/boys_weight_remote_data_source.dart';
-import 'package:kids_info/domain/model/chart_model.dart';
+import 'package:kids_info/features/chart/domain/model/chart_model.dart';
+import 'package:kids_info/features/chart/data/remote_data_source/boys_weight_remote_data_source.dart';
+
 
 @injectable
 class ChartRepository {
@@ -9,7 +10,6 @@ class ChartRepository {
   final BoysWeightRemoteRetrofitDataSource remoteDataSource;
 
   Future<List<ChartModel>> getBoysModel(int month) async {
-    print(remoteDataSource.getBoysWeight());
     return remoteDataSource.getBoysWeight();
   }
 }

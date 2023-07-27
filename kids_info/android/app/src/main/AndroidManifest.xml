@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.piotrwezyk.kids_info">
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="kids_info"
         android:name="${applicationName}"

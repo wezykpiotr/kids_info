@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Kids Info',
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,

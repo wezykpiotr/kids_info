@@ -1,10 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kids_info/app/core/enums.dart';
-import 'package:kids_info/domain/model/chart_model.dart';
-import 'package:kids_info/domain/repository/chart_repository.dart';
+import 'package:kids_info/features/chart/data/chart_repository.dart';
+import 'package:kids_info/features/chart/domain/model/chart_model.dart';
 part 'home_state.dart';
-
 
 @injectable
 class HomeCubit extends Cubit<HomeState> {
