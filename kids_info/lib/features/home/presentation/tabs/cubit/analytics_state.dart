@@ -1,3 +1,4 @@
+
 part of 'analytics_cubit.dart';
 
 @freezed

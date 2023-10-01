@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kids_info/app/core/enums.dart';
 import 'package:kids_info/app/core/injection_container.dart';
 import 'package:kids_info/features/chart/domain/model/chart_model.dart';
-import 'package:kids_info/features/home/presentation/cubit/home_cubit.dart';
+import 'package:kids_info/features/chart/presentation/cubit/chart_cubit.dart';
 
 class ChartPage extends StatelessWidget {
   const ChartPage({
@@ -12,19 +12,19 @@ class ChartPage extends StatelessWidget {
     required this.chartModel,
   }) : super(key: key);
 
+  // final ChartModel chartModel  = ChartModel(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
   final ChartModel chartModel;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("test"),
       ),
-      body: BlocProvider<HomeCubit>(
+      body: BlocProvider<ChartCubit>(
         create: (context) {
-          return getIt<HomeCubit>()..start(month: chartModel.month);
+          return getIt<ChartCubit>()..start(month: chartModel.month);
         },
-        child: BlocBuilder<HomeCubit, HomeState>(
+        child: BlocBuilder<ChartCubit, ChartState>(
           builder: (context, state) {
             switch (state.status) {
               case Status.initial:
@@ -52,7 +52,7 @@ class ChartPage extends StatelessWidget {
                         isCurved: true,
                         curveSmoothness: 0,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -60,7 +60,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -68,7 +68,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -76,7 +76,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -84,7 +84,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -92,7 +92,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -100,7 +100,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -108,7 +108,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -116,7 +116,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -124,7 +124,7 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                       LineChartBarData(
                         spots: state.result
@@ -132,12 +132,12 @@ class ChartPage extends StatelessWidget {
                             .toList(),
                         isCurved: true,
                         barWidth: 2,
-                        dotData: FlDotData(show: false),
+                        dotData: const FlDotData(show: false),
                       ),
                     ],
                   ),
-                  swapAnimationDuration: const Duration(microseconds: 200),
-                  swapAnimationCurve: Curves.linear,
+                  duration: const Duration(microseconds: 200),
+                  curve: Curves.linear,
                 );
 
               case Status.error:

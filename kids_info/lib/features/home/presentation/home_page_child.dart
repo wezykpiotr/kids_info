@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kids_info/app/core/enums.dart';
 import 'package:kids_info/app/core/injection_container.dart';
+import 'package:kids_info/features/add_child/presentation/add_child_page.dart';
 import 'package:kids_info/features/auth/user_profile.dart';
-import 'package:kids_info/features/edit_child_data/cubit/edit_personal_info_cubit.dart';
-import 'package:kids_info/features/edit_child_data/presentation/personal_info.dart';
-import 'package:kids_info/features/home/presentation/tabs/analytics.dart';
+import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
+import 'package:kids_info/features/edit_personal_info_data/presentation/edit_personal_info_page.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/analytics_cubit.dart';
+import 'package:kids_info/features/home/presentation/tabs/cubit/drop_down_button_name_cubit.dart';
+import 'package:kids_info/features/home/presentation/tabs/personal_info_page.dart';
+import 'package:kids_info/util/my_drawer.dart';
 import 'package:kids_info/util/my_tab.dart';
 
 class HomePageChild extends StatelessWidget {
@@ -27,19 +30,23 @@ class HomePageChild extends StatelessWidget {
     ),
   ];
 
+  var selectedValue;
+  var index;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-      BlocProvider(
+        BlocProvider(
           create: (context) => getIt<AnalyticsCubit>()..start(),
         ),
         BlocProvider(
           create: (context) => getIt<EditPersonalInfoCubit>()..start(),
         ),
+        BlocProvider(create: (context) => DropDownButtonNameCubit()),
       ],
       child: Scaffold(
-        body: BlocBuilder<AnalyticsCubit, AnalyticsState>(
+        body: BlocBuilder<EditPersonalInfoCubit, EditPersonalInfoState>(
           builder: (context, state) {
             switch (state.status) {
               case Status.initial:
@@ -52,9 +59,14 @@ class HomePageChild extends StatelessWidget {
                 );
               case Status.error:
                 return Center(
-                    child: Text(state.errorMessage ?? "Unkown error"));
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(state.errorMessage ?? "Unkown error"),
+                  ],
+                ));
               case Status.success:
-                final analyticsItems = state.items;
+                final personalInfo = state.items;
                 return DefaultTabController(
                   length: myTabs.length,
                   child: Scaffold(
@@ -62,6 +74,36 @@ class HomePageChild extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       iconTheme: IconThemeData(color: Colors.grey[800]),
                       elevation: 0,
+                      title: BlocBuilder<DropDownButtonNameCubit,
+                          DropDownButtonNameState>(
+                        builder: (context, state) {
+                          return DropdownButton(
+                            hint: const Text('Select a child'),
+                            onChanged: (value) {
+                              if (value == null) return;
+                              index = personalInfo.indexWhere(
+                                  (element) => element.name == value);
+                              context
+                                  .read<DropDownButtonNameCubit>()
+                                  .getCurrentNameAndIndex(
+                                    value.toString(),
+                                    index,
+                                  );
+
+                              selectedValue = value;
+                            },
+                            items: personalInfo
+                                .map(
+                                  (element) => DropdownMenuItem(
+                                    value: element.name,
+                                    child: Text(element.name),
+                                  ),
+                                )
+                                .toList(),
+                            value: selectedValue ??= personalInfo.first.name,
+                          );
+                        },
+                      ),
                       actions: [
                         Padding(
                           padding: const EdgeInsets.only(right: 24.0),
@@ -72,46 +114,96 @@ class HomePageChild extends StatelessWidget {
                               size: 36,
                             ),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
                                   builder: (context) =>
-                                      const UserProfileScreen()));
-                              // account button tapped
+                                      const UserProfileScreen(),
+                                ),
+                              );
                             },
                           ),
                         )
                       ],
                     ),
-                    body: Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 36.0, vertical: 18),
-                        ),
-                        TabBar(
-                          tabs: myTabs,
-                        ),
-                        Expanded(
-                          child: TabBarView(
-                            children: [
-                              Analytics(id: analyticsItems[0].id),
-                              BlocBuilder<EditPersonalInfoCubit,
-                                  EditPersonalInfoState>(
-                                builder: (context, state) {
-                                  final item = state.items;
-                                  if (item.isNotEmpty) {
-                                    return PersonalInfo(id: item[0].id);
-                                  }
-                                  return const CircularProgressIndicator();
-                                },
+                    drawer: BlocBuilder<EditPersonalInfoCubit,
+                        EditPersonalInfoState>(
+                      builder: (context, state) {
+                        final item = state.items;
+                        return MyDrawer(
+                          onAnalyticsInfoTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditPersonalInfoPage(id: item[0].id),
                               ),
-                              Analytics(id: analyticsItems[0].id),
-                              Analytics(id: analyticsItems[0].id),
-                            ],
-                            // Text(tabBarviewM(analyticsItems).length.toString()),
-                          ),
-                        ),
-                      ],
+                            );
+                          },
+                          onAppointmentsTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditPersonalInfoPage(id: item[0].id),
+                              ),
+                            );
+                          },
+                          onDocumentsTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditPersonalInfoPage(id: item[0].id),
+                              ),
+                            );
+                          },
+                          onPersonalInfoTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditPersonalInfoPage(id: item[0].id),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
+                    body: BlocBuilder<DropDownButtonNameCubit,
+                        DropDownButtonNameState>(
+                      builder: (context, state) {
+                        index = state.index;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 36.0, vertical: 18),
+                            ),
+                            TabBar(
+                              tabs: myTabs,
+                            ),
+                            Expanded(
+                              child: TabBarView(
+                                children: [
+                                  PersonalInfo(id: personalInfo[index].id),
+                                  PersonalInfo(id: personalInfo[index].id),
+                                  PersonalInfo(id: personalInfo[index].id),
+                                  PersonalInfo(id: personalInfo[index].id),
+                                ],
+                                // Text(tabBarviewM(analyticsItems).length.toString()),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    floatingActionButton: FloatingActionButton(
+                        backgroundColor: Colors.grey[800],
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => AddChildPage())),
+                        child: const Icon(Icons.add)),
                   ),
                 );
             }
