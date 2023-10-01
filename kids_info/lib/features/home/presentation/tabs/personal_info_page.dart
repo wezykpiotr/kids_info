@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kids_info/app/core/injection_container.dart';
-import 'package:kids_info/features/edit_personal_info_data/data/repository/edit_personal_info_repository.dart';
+import 'package:kids_info/features/edit_personal_info_data/domain/edit_personal_info_model.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 
 import 'package:kids_info/util/child_tile.dart';
@@ -19,55 +19,54 @@ class PersonalInfo extends StatelessWidget {
   final String id;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<EditPersonalInfoCubit>()..getItemWithID(id),
-      child: BlocBuilder<EditPersonalInfoCubit, EditPersonalInfoState>(
-        builder: (context, state) {
-          final item = state.item;
-          return GridView.builder(
-            itemCount: tileList.length,
-            padding: const EdgeInsets.all(12),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1 / 1.6,
-            ),
-            itemBuilder: (context, index) {
-              switch (index) {
-                case 0:
-                  return ChildTile(
+    return BlocBuilder<EditPersonalInfoCubit, EditPersonalInfoState>(
+      builder: (context, state) {
+        final items = state.items;
+        final element = items.where((element) => element.id == id);
+        final item = element.first;
+        return GridView.builder(
+          itemCount: tileList.length,
+          padding: const EdgeInsets.all(12),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1 / 1.6,
+          ),
+          itemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return ChildTile(
+                  tabName: tileList[index][0],
+                  tileColor: tileList[index][1],
+                  imageName: tileList[index][2],
+                  value: item?.name,
+                );
+              case 1:
+                return ChildTile(
+                  tabName: tileList[index][0],
+                  tileColor: tileList[index][1],
+                  imageName: tileList[index][2],
+                  value: "${item?.height} cm",
+                );
+              case 2:
+                return ChildTile(
+                  tabName: tileList[index][0],
+                  tileColor: tileList[index][1],
+                  imageName: tileList[index][2],
+                  value: "${item?.weight} g",
+                );
+              case 3:
+                return ChildTile(
                     tabName: tileList[index][0],
                     tileColor: tileList[index][1],
                     imageName: tileList[index][2],
-                    value: item?.name,
-                  );
-                case 1:
-                  return ChildTile(
-                    tabName: tileList[index][0],
-                    tileColor: tileList[index][1],
-                    imageName: tileList[index][2],
-                    value: "${item?.height} cm",
-                  );
-                case 2:
-                  return ChildTile(
-                    tabName: tileList[index][0],
-                    tileColor: tileList[index][1],
-                    imageName: tileList[index][2],
-                    value: "${item?.weight} g",
-                  );
-                case 3:
-                  return ChildTile(
-                      tabName: tileList[index][0],
-                      tileColor: tileList[index][1],
-                      imageName: tileList[index][2],
-                      value: dateFormatted(item?.birthday));
-                default:
-                  // const CircularProgressIndicator();
-                  return const CircularProgressIndicator();
-              }
-            },
-          );
-        },
-      ),
+                    value: dateFormatted(item?.birthday));
+              default:
+                // const CircularProgressIndicator();
+                return const CircularProgressIndicator();
+            }
+          },
+        );
+      },
     );
   }
 
