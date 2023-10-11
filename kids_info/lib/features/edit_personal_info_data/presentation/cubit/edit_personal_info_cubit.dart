@@ -16,10 +16,8 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
   EditPersonalInfoCubit(this._editPersonalInfoRepository)
       : super(EditPersonalInfoState());
 
-
   StreamSubscription? _streamSubscription;
   final EditPersonalInfoRepository _editPersonalInfoRepository;
-  
 
   Future<void> start() async {
     emit(EditPersonalInfoState(status: Status.loading));
@@ -100,7 +98,7 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
         twin,
         headSize,
       );
-      emit(state);
+      
     } catch (error) {
       emit(
         EditPersonalInfoState(
@@ -132,6 +130,17 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
           errorMessage: error.toString(),
         ),
       );
+    }
+  }
+
+  Future<void> removeBabyData(String id) async {
+    try {
+      await _editPersonalInfoRepository.delete(id: id);
+    } catch (error) {
+      emit(
+        EditPersonalInfoState(errorMessage: error.toString()),
+      );
+      start();
     }
   }
 

@@ -10,7 +10,6 @@ class DropdownButtonCubit extends Cubit<DropdownButtonState> {
   Future<void> passValue(String value) async {
     state.currentValue = value;
     emit(DropdownButtonState(currentValue: state.currentValue, sex: state.sex));
-    print(state.currentValue);
   }
 
   Future<void> checkController() async{

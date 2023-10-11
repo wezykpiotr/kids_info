@@ -7,7 +7,7 @@ import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/ed
 
 import 'package:kids_info/util/child_tile.dart';
 
-class PersonalInfo extends StatelessWidget {
+class PersonalInfo extends StatelessWidget{
   PersonalInfo({required this.id, super.key});
   final List tileList = [
     ["Name", Colors.blue, "assets/icons/user.png"],
@@ -38,28 +38,28 @@ class PersonalInfo extends StatelessWidget {
                   tabName: tileList[index][0],
                   tileColor: tileList[index][1],
                   imageName: tileList[index][2],
-                  value: item?.name,
+                  value: item.name,
                 );
               case 1:
                 return ChildTile(
                   tabName: tileList[index][0],
                   tileColor: tileList[index][1],
                   imageName: tileList[index][2],
-                  value: "${item?.height} cm",
+                  value: "${item.height} cm",
                 );
               case 2:
                 return ChildTile(
                   tabName: tileList[index][0],
                   tileColor: tileList[index][1],
                   imageName: tileList[index][2],
-                  value: "${item?.weight} g",
+                  value: "${item.weight} g",
                 );
               case 3:
                 return ChildTile(
                     tabName: tileList[index][0],
                     tileColor: tileList[index][1],
                     imageName: tileList[index][2],
-                    value: dateFormatted(item?.birthday));
+                    value: dateFormatted(item.birthday));
               default:
                 // const CircularProgressIndicator();
                 return const CircularProgressIndicator();
