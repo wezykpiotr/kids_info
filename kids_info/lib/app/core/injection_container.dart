@@ -12,7 +12,7 @@ void configureDependencies() => getIt.init();
 abstract class RegisterModule {
   // You can register named preemptive types like follows
   @Named("BaseUrl")
-  String get baseUrl => 'https://json.extendsclass.com/bin/';
+  String get baseUrl => 'https://kids-info.onrender.com';
 
   // url here will be injected
   @lazySingleton

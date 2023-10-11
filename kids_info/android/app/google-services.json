@@ -29,6 +29,13 @@
             {
               "client_id": "667939635284-86kvmmstpujmfgabfckg92k3l031cbvd.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "667939635284-r2ng41jglag17ddgsn9k7hkvt338eo99.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.piotrwezyk.kidsInfo"
+              }
             }
           ]
         }
