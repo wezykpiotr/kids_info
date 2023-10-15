@@ -13,7 +13,7 @@ import 'package:dio/dio.dart' as _i8;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:kids_info/app/core/injection_container.dart' as _i13;
-import 'package:kids_info/features/add_child/presentation/cubit/weight_cubit.dart'
+import 'package:kids_info/features/add_child/presentation/cubit/measurments_cubit.dart'
     as _i6;
 import 'package:kids_info/features/chart/data/chart_repository.dart' as _i11;
 import 'package:kids_info/features/chart/data/remote_data_source/boys_weight_remote_data_source.dart'
@@ -48,11 +48,11 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i4.DetailsCubit(gh<_i3.AnalyticsRepository>()));
     gh.factory<_i5.EditPersonalInfoRepository>(
         () => _i5.EditPersonalInfoRepository());
+    gh.lazySingleton<_i6.MeasurmentsCubit>(() => _i6.MeasurmentsCubit());
     gh.factory<String>(
       () => registerModule.baseUrl,
       instanceName: 'BaseUrl',
     );
-    gh.lazySingleton<_i6.WeightCubit>(() => _i6.WeightCubit());
     gh.lazySingleton<_i7.AnalyticsCubit>(
         () => _i7.AnalyticsCubit(gh<_i3.AnalyticsRepository>()));
     gh.lazySingleton<_i8.Dio>(

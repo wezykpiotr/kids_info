@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/controller_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/dropdown_button_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/switch_cubit.dart';
-import 'package:kids_info/features/add_child/presentation/cubit/weight_cubit.dart';
+import 'package:kids_info/features/add_child/presentation/cubit/measurments_cubit.dart';
 import 'package:kids_info/features/edit_personal_info_data/data/repository/edit_personal_info_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 
@@ -34,14 +34,11 @@ class AddChildPage extends StatelessWidget {
         BlocProvider(
           create: (context) => SwitchCubit(),
         ),
-        BlocProvider(
-          create: (context) => WeightCubit(),
-        ),
-        BlocProvider(
-          create: (context) => EditPersonalInfoCubit(
-            EditPersonalInfoRepository(),
-          ),
-        ),
+        // BlocProvider(
+        //   create: (context) => EditPersonalInfoCubit(
+        //     EditPersonalInfoRepository(),
+        //   ),
+        // ),
       ],
       child: Builder(builder: (context) {
         return Scaffold(
@@ -241,12 +238,6 @@ class AddChildPage extends StatelessWidget {
                           ),
                           const Text("Birth weight:"),
                           const Spacer(),
-
-                          // * TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTAJ
-                          // * TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTAJ
-                          // * TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTAJ
-                          // * TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTAJ
-                          // * TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTAJ
                           SizedBox(
                             width: 200,
                             child: TextFormField(
@@ -256,8 +247,11 @@ class AddChildPage extends StatelessWidget {
                                 border: InputBorder.none,
                               ),
                               keyboardType: TextInputType.text,
-                              onTap: () =>
-                                  _showDialog(context, weightController, true),
+                              onTap: () => _showDialog(
+                                context,
+                                weightController,
+                                true,
+                              ),
                             ),
                           ),
                         ],
@@ -318,44 +312,32 @@ class AddChildPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  //* TUTAJ DODAĆ BLOCA Z PERSONAL INFO I UŻYCIE SAVEDATA
-
-                  BlocBuilder<ControllerCubit, ControllerState>(
-                    builder: (context, state) {
-                      return BlocBuilder<EditPersonalInfoCubit,
-                          EditPersonalInfoState>(
-                        builder: (context, state) {
-                          return ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size.fromHeight(50),
-                            ),
-
-                            // state.currentText.isEmpty()
-                            //     ? null
-                            //     : () {
-                            //         print(state.currentText);
-                            //       },
-                            onPressed: () {
-                              context.read<EditPersonalInfoCubit>().saveData(
-                                  name: nameController.text,
-                                  birthday:
-                                      DateTime.parse(birthdayController.text),
-                                  weight: weightController.text,
-                                  height: int.parse(birthLenghtController.text),
-                                  headSize: int.parse(headSizeController.text),
-                                  twin: twin,
-                                  sex: sex);
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Add a child'),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () async {
+                      context.read<EditPersonalInfoCubit>().saveData(
+                            name: nameController.text,
+                            birthday: DateTime.parse(birthdayController.text),
+                            weight: weightController.text,
+                            height: int.parse(birthLenghtController.text),
+                            headSize: int.parse(headSizeController.text),
+                            twin: twin,
+                            sex: sex,
                           );
-                        },
-                      );
+                          //*TAK TERAZ DZIAŁA, TYLKO TRZEBA WSZYSTKIE STATE EMITOWAĆ, BO WCHODZI W INITIAL, CZYLI TYLKO ADDED JEST NA TRUE,
+                          //* A RESZTA RESETUJE STATE DO DEFAULT VALUE
+                          //* TEGO JUŻ NIE POTRZEBA
+                          //* TERAZ DOBRZE BY BYŁO ABY DODAC, ŻE PRZY USUNIĘCIU NA DOLE W SNACKBARZE WYŚWIETLANE JEST TEN IMIĘ USUNIĘTE LUB DODANEGO DZIECKA
+                      // context.read<EditPersonalInfoCubit>().addedFlag();
+                      // print(context
+                      //     .read<EditPersonalInfoCubit>()
+                      //     .addedFlag().toString());
+                      Navigator.of(context).pop();
                     },
+                    child: const Text('Add a child'),
                   ),
-                  // Text(weightController.text.toString()),
-                  // Text(birthLenghtController.text.toString()),
-                  // Text(headSizeController.text.toString())
                 ],
               ),
             ),
@@ -386,7 +368,7 @@ void _showDialog(
   await showDialog(
     context: context,
     builder: (context) => BlocProvider(
-      create: (context) => WeightCubit(),
+      create: (context) => MeasurmentsCubit(),
       child: CustomAlertDialog(
         controller: controller,
         weight: weight,
@@ -396,25 +378,25 @@ void _showDialog(
 }
 
 class CustomAlertDialog extends StatelessWidget {
-  const CustomAlertDialog(
-      {Key? key, required this.controller, required this.weight})
-      : super(key: key);
+  CustomAlertDialog({
+    Key? key,
+    required this.controller,
+    required this.weight,
+  }) : super(key: key);
 
   final TextEditingController controller;
   final bool weight;
+  dynamic tempSelectedValue1 = 0;
+  dynamic tempSelectedValue2 = 0;
+  final NumberFormat formatter = NumberFormat("00");
+
   @override
   Widget build(BuildContext context) {
-    int tempSelectedValue1 = 0;
-    int tempSelectedValue2 = 0;
-    NumberFormat formatter = NumberFormat("00");
-
-    return BlocBuilder<WeightCubit, WeightState>(
-      builder: (context, state) {
+    return BlocBuilder<MeasurmentsCubit, MeasurmentsState>(
+      builder: (context, weightState) {
         //* TEN STATE DZIAŁA JAK WYWOŁAMY CONTEXT.READ<WEIGHTCUBIT>().
         //*  ALE NIE DZIAŁA JAK ZROBIMY COPYWITH, ZNOWU JAK NIE ZROBIMY COPYWITH, TO NIE AKTUALIZUJE SIĘ STATE
         //* MOŻNA SPRÓBOWAĆ TERAZ USTAWIĆ TE WARTOŚĆI NA CUPERTINO...
-        print(state.currentValueKg);
-        print(state.currentValueGrams);
         return AlertDialog(
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -453,26 +435,18 @@ class CustomAlertDialog extends StatelessWidget {
           actions: [
             ElevatedButton(
               onPressed: () {
-                //*TU SIĘ STATE AKTUALIZUJE, DOPIERO WTEDY GDY KLIKNIEMY PRZYCISK, INACZEJ WEIGHTCONTROLLER.TEXT NIE ZDĄŻY ZAKTUALIZOWAĆ STATE
                 context
-                    .read<WeightCubit>()
+                    .read<MeasurmentsCubit>()
                     .getControllerValue(tempSelectedValue1, tempSelectedValue2);
-
-                // weightController.text =
-                //     '${state.currentValueKg}, ${state.currentValueGrams}';
-
-                //*TO NATYCHMIAST AKTUALIZUJE STATE DLATEGO MOŻNA USTAWIĆ WEIGHTCONTROLLER.TEXT I WYŚWIETLIĆ W NIM WARTOŚCI,
-                //* COPYWITH JEDNAK NIE ZMIENIA STATE JAK CHCĘ MIEĆ DO NIEGO DOSTĘP WYŻEJ, DLATEGO TRZEBA TAM WYKORZYSTAĆ CONTEXT.READ
-
-                var newValues = state.copyWith(
-                  currentValueGrams: tempSelectedValue2,
-                  currentValueKg: tempSelectedValue1,
+                var newValues = weightState.copyWith(
+                  currentValue1: tempSelectedValue1,
+                  currentValue2: tempSelectedValue2,
                 );
                 if (weight) {
                   controller.text =
-                      '${newValues.currentValueKg}, ${newValues.currentValueGrams}';
+                      '${newValues.currentValue1}${'${formatter.format(newValues.currentValue2)}0'}';
                 } else {
-                  controller.text = '${newValues.currentValueGrams}';
+                  controller.text = '${newValues.currentValue2}';
                 }
                 Navigator.of(context).pop();
               },

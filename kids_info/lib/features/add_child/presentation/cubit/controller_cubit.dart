@@ -11,7 +11,6 @@ class ControllerCubit extends Cubit<ControllerState> {
   Future<void> getControllerText(String value) async {
     state.currentText = value;
     emit(ControllerState(currentText: state.currentText));
-    print(state.currentText);
   }
 
 

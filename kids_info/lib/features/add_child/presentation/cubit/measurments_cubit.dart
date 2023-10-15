@@ -1,23 +1,24 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'weight_state.dart';
-part 'weight_cubit.freezed.dart';
+part 'measurments_state.dart';
+part 'measurments_cubit.freezed.dart';
 
 @lazySingleton
-class WeightCubit extends Cubit<WeightState> {
-  WeightCubit() : super(WeightState());
+class MeasurmentsCubit extends Cubit<MeasurmentsState> {
+  MeasurmentsCubit() : super(MeasurmentsState());
 
   // Future<void> getControllerValue(int valueKg) async {
   //   emit(WeightState(currentValueKg: valueKg));
 
   // }
 
-  void getControllerValue(int valueKg, int valueGrams) {
+  void getControllerValue(dynamic selectedValue1, dynamic selectedValue2) {
     emit(
-        state.copyWith(currentValueGrams: valueGrams, currentValueKg: valueKg));
+      state.copyWith(
+          currentValue1: selectedValue1, currentValue2: selectedValue2),
+    );
     // state.currentValueKg = valueKg;
     // state.currentValueGrams = valueGrams;
     // var newValues =
@@ -26,7 +27,6 @@ class WeightCubit extends Cubit<WeightState> {
     // emit(
     //   state.copyWith(currentValueKg: valueKg, currentValueGrams: valueGrams),
     // );
-    print(WeightState(currentValueGrams: valueGrams, currentValueKg: valueKg));
 
     // print(WeightState(currentValueKg: valueKg, currentValueGrams: valueGrams));
   }

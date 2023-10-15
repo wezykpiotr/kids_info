@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:kids_info/app/core/injection_container.dart';
-import 'package:kids_info/features/edit_personal_info_data/domain/edit_personal_info_model.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 
 import 'package:kids_info/util/child_tile.dart';

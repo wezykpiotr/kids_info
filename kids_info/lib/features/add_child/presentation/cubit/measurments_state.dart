@@ -1,15 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'weight_cubit.dart';
+part of 'measurments_cubit.dart';
 
 @freezed
-class WeightState with _$WeightState {
+class MeasurmentsState with _$MeasurmentsState {
   // const WeightState._();
-  factory WeightState({
-   @Default(0) currentValueKg,
-   @Default(0) currentValueGrams,
+  factory MeasurmentsState({
+   @Default(0) currentValue1,
+   @Default(0) currentValue2,
     // @Default([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) List<int> weightDataKg,
     // required this.currentValueGrams,
-  }) = _WeightState;
+  }) = _MeasurmentsState;
   // String currentValueGrams;
 }
 
