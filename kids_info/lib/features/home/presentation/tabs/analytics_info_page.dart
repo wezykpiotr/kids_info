@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import 'package:kids_info/app/core/injection_container.dart';
 import 'package:kids_info/features/chart/domain/model/chart_model.dart';
 import 'package:kids_info/features/chart/presentation/chart_page.dart';

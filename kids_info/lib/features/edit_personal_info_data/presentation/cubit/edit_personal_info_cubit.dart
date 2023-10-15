@@ -34,6 +34,18 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
       );
   }
 
+  Future<void> addedFlag() async {
+    try {
+      emit(EditPersonalInfoState(
+        added: true,
+      ));
+    } catch (error) {
+      emit(
+        EditPersonalInfoState(errorMessage: error.toString()),
+      );
+    }
+  }
+
   Future<void> getItemWithID(String id) async {
     final itemModel = await _editPersonalInfoRepository.get(id: id);
     emit(EditPersonalInfoState(item: itemModel));
@@ -98,7 +110,10 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
         twin,
         headSize,
       );
-      
+      emit(
+        EditPersonalInfoState(
+            added: true, items: state.items, status: Status.success),
+      );
     } catch (error) {
       emit(
         EditPersonalInfoState(
@@ -136,6 +151,13 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
   Future<void> removeBabyData(String id) async {
     try {
       await _editPersonalInfoRepository.delete(id: id);
+      emit(
+        EditPersonalInfoState(
+          deleted: true,
+          status: Status.success,
+          items: state.items,
+        ),
+      );
     } catch (error) {
       emit(
         EditPersonalInfoState(errorMessage: error.toString()),

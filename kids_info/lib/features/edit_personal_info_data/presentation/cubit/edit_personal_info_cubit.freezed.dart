@@ -23,6 +23,8 @@ mixin _$EditPersonalInfoState {
   EditPersonalInfoModel? get item => throw _privateConstructorUsedError;
   EditPersonalInfoModelAddChild? get infoModelAddChild =>
       throw _privateConstructorUsedError;
+  bool get deleted => throw _privateConstructorUsedError;
+  bool get added => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $EditPersonalInfoStateCopyWith<EditPersonalInfoState> get copyWith =>
@@ -41,7 +43,9 @@ abstract class $EditPersonalInfoStateCopyWith<$Res> {
       String? errorMessage,
       File? file,
       EditPersonalInfoModel? item,
-      EditPersonalInfoModelAddChild? infoModelAddChild});
+      EditPersonalInfoModelAddChild? infoModelAddChild,
+      bool deleted,
+      bool added});
 
   $EditPersonalInfoModelCopyWith<$Res>? get item;
 }
@@ -66,6 +70,8 @@ class _$EditPersonalInfoStateCopyWithImpl<$Res,
     Object? file = freezed,
     Object? item = freezed,
     Object? infoModelAddChild = freezed,
+    Object? deleted = null,
+    Object? added = null,
   }) {
     return _then(_value.copyWith(
       items: null == items
@@ -92,6 +98,14 @@ class _$EditPersonalInfoStateCopyWithImpl<$Res,
           ? _value.infoModelAddChild
           : infoModelAddChild // ignore: cast_nullable_to_non_nullable
               as EditPersonalInfoModelAddChild?,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      added: null == added
+          ? _value.added
+          : added // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -122,7 +136,9 @@ abstract class _$$_EditPersonalInfoStateCopyWith<$Res>
       String? errorMessage,
       File? file,
       EditPersonalInfoModel? item,
-      EditPersonalInfoModelAddChild? infoModelAddChild});
+      EditPersonalInfoModelAddChild? infoModelAddChild,
+      bool deleted,
+      bool added});
 
   @override
   $EditPersonalInfoModelCopyWith<$Res>? get item;
@@ -145,6 +161,8 @@ class __$$_EditPersonalInfoStateCopyWithImpl<$Res>
     Object? file = freezed,
     Object? item = freezed,
     Object? infoModelAddChild = freezed,
+    Object? deleted = null,
+    Object? added = null,
   }) {
     return _then(_$_EditPersonalInfoState(
       items: null == items
@@ -171,6 +189,14 @@ class __$$_EditPersonalInfoStateCopyWithImpl<$Res>
           ? _value.infoModelAddChild
           : infoModelAddChild // ignore: cast_nullable_to_non_nullable
               as EditPersonalInfoModelAddChild?,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      added: null == added
+          ? _value.added
+          : added // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -184,7 +210,9 @@ class _$_EditPersonalInfoState implements _EditPersonalInfoState {
       this.errorMessage,
       this.file,
       this.item,
-      this.infoModelAddChild})
+      this.infoModelAddChild,
+      this.deleted = false,
+      this.added = false})
       : _items = items;
 
   final List<EditPersonalInfoModel> _items;
@@ -207,10 +235,16 @@ class _$_EditPersonalInfoState implements _EditPersonalInfoState {
   final EditPersonalInfoModel? item;
   @override
   final EditPersonalInfoModelAddChild? infoModelAddChild;
+  @override
+  @JsonKey()
+  final bool deleted;
+  @override
+  @JsonKey()
+  final bool added;
 
   @override
   String toString() {
-    return 'EditPersonalInfoState(items: $items, status: $status, errorMessage: $errorMessage, file: $file, item: $item, infoModelAddChild: $infoModelAddChild)';
+    return 'EditPersonalInfoState(items: $items, status: $status, errorMessage: $errorMessage, file: $file, item: $item, infoModelAddChild: $infoModelAddChild, deleted: $deleted, added: $added)';
   }
 
   @override
@@ -225,7 +259,9 @@ class _$_EditPersonalInfoState implements _EditPersonalInfoState {
             (identical(other.file, file) || other.file == file) &&
             (identical(other.item, item) || other.item == item) &&
             const DeepCollectionEquality()
-                .equals(other.infoModelAddChild, infoModelAddChild));
+                .equals(other.infoModelAddChild, infoModelAddChild) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.added, added) || other.added == added));
   }
 
   @override
@@ -236,7 +272,9 @@ class _$_EditPersonalInfoState implements _EditPersonalInfoState {
       errorMessage,
       file,
       item,
-      const DeepCollectionEquality().hash(infoModelAddChild));
+      const DeepCollectionEquality().hash(infoModelAddChild),
+      deleted,
+      added);
 
   @JsonKey(ignore: true)
   @override
@@ -248,13 +286,14 @@ class _$_EditPersonalInfoState implements _EditPersonalInfoState {
 
 abstract class _EditPersonalInfoState implements EditPersonalInfoState {
   factory _EditPersonalInfoState(
-          {final List<EditPersonalInfoModel> items,
-          final Status status,
-          final String? errorMessage,
-          final File? file,
-          final EditPersonalInfoModel? item,
-          final EditPersonalInfoModelAddChild? infoModelAddChild}) =
-      _$_EditPersonalInfoState;
+      {final List<EditPersonalInfoModel> items,
+      final Status status,
+      final String? errorMessage,
+      final File? file,
+      final EditPersonalInfoModel? item,
+      final EditPersonalInfoModelAddChild? infoModelAddChild,
+      final bool deleted,
+      final bool added}) = _$_EditPersonalInfoState;
 
   @override
   List<EditPersonalInfoModel> get items;
@@ -268,6 +307,10 @@ abstract class _EditPersonalInfoState implements EditPersonalInfoState {
   EditPersonalInfoModel? get item;
   @override
   EditPersonalInfoModelAddChild? get infoModelAddChild;
+  @override
+  bool get deleted;
+  @override
+  bool get added;
   @override
   @JsonKey(ignore: true)
   _$$_EditPersonalInfoStateCopyWith<_$_EditPersonalInfoState> get copyWith =>
