@@ -1,6 +1,8 @@
 part of 'switch_cubit.dart';
 
-class SwitchState {
-  SwitchState({required this.currentValue});
-  bool currentValue;
+@freezed
+class SwitchState with _$SwitchState {
+  factory SwitchState({
+    @Default(false) bool currentValue,
+  }) = _SwitchState;
 }

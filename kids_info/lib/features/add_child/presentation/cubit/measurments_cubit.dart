@@ -5,41 +5,19 @@ import 'package:injectable/injectable.dart';
 part 'measurments_state.dart';
 part 'measurments_cubit.freezed.dart';
 
+/// A [Cubit] that manages the state of measurements.
 @lazySingleton
 class MeasurmentsCubit extends Cubit<MeasurmentsState> {
+  /// Creates a [MeasurmentsCubit] with an initial state.
   MeasurmentsCubit() : super(MeasurmentsState());
 
-  // Future<void> getControllerValue(int valueKg) async {
-  //   emit(WeightState(currentValueKg: valueKg));
-
-  // }
-
-  void getControllerValue(dynamic selectedValue1, dynamic selectedValue2) {
+  /// Updates the current values in the state.
+  ///
+  /// The [selectedValue1] and [selectedValue2] parameters are the new values to update to.
+  void updateValues(int selectedValue1, int selectedValue2) {
     emit(
       state.copyWith(
           currentValue1: selectedValue1, currentValue2: selectedValue2),
     );
-    // state.currentValueKg = valueKg;
-    // state.currentValueGrams = valueGrams;
-    // var newValues =
-    //     state.copyWith(currentValueGrams: valueGrams, currentValueKg: valueKg);
-    // emit(newValues);
-    // emit(
-    //   state.copyWith(currentValueKg: valueKg, currentValueGrams: valueGrams),
-    // );
-
-    // print(WeightState(currentValueKg: valueKg, currentValueGrams: valueGrams));
   }
-
-  // String getControllerValue(int valueKg, int valueGrams) {
-  //   state.currentValueKg = valueKg;
-  //   state.currentValueGrams = valueGrams;
-  //   try {
-  //     emit(WeightState(currentValueKg: valueKg, currentValueGrams: valueGrams));
-  //     print(valueKg);
-  //   } catch (error) {
-  //     emit(WeightState(currentValueKg: valueKg, currentValueGrams: valueGrams));
-  //   }
-  //   return '$valueKg, $valueGrams';
-  // }
 }
