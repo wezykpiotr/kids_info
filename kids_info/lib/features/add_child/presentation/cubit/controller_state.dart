@@ -1,8 +1,9 @@
 part of 'controller_cubit.dart';
 
-class ControllerState {
-  ControllerState({
-    required this.currentText,
-  });
-  String currentText;
+@freezed
+class ControllerState with _$ControllerState {
+  factory ControllerState({
+    required String currentText,
+  }) = _ControllerState;
 }
+

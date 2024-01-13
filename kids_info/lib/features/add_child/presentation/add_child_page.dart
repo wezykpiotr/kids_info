@@ -6,7 +6,6 @@ import 'package:kids_info/features/add_child/presentation/cubit/controller_cubit
 import 'package:kids_info/features/add_child/presentation/cubit/dropdown_button_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/switch_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/measurments_cubit.dart';
-import 'package:kids_info/features/edit_personal_info_data/data/repository/edit_personal_info_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 
 class AddChildPage extends StatelessWidget {
@@ -101,7 +100,7 @@ class AddChildPage extends StatelessWidget {
                                   return TextFormField(
                                     onChanged: (newValue) => context
                                         .read<ControllerCubit>()
-                                        .getControllerText(newValue),
+                                        .updateControllerText(newValue),
                                     controller: nameController,
                                     decoration: const InputDecoration(
                                       hintText: 'Enter a name...',
@@ -137,7 +136,7 @@ class AddChildPage extends StatelessWidget {
                                   return DropdownButton(
                                     onChanged: (dynamic value) => context
                                         .read<DropdownButtonCubit>()
-                                        .passValue(value),
+                                        .updateDropdownValue(value),
                                     value: sex = state.currentValue,
                                     items: state.sex.map((item) {
                                       return DropdownMenuItem(
@@ -169,7 +168,7 @@ class AddChildPage extends StatelessWidget {
                                   value: twin = state.currentValue,
                                   onChanged: (value) => context
                                       .read<SwitchCubit>()
-                                      .getSwitchValue(value),
+                                      .updateSwitchValue(value),
                                   activeColor: Colors.green,
                                 );
                               },
@@ -326,10 +325,10 @@ class AddChildPage extends StatelessWidget {
                             twin: twin,
                             sex: sex,
                           );
-                          //*TAK TERAZ DZIAŁA, TYLKO TRZEBA WSZYSTKIE STATE EMITOWAĆ, BO WCHODZI W INITIAL, CZYLI TYLKO ADDED JEST NA TRUE,
-                          //* A RESZTA RESETUJE STATE DO DEFAULT VALUE
-                          //* TEGO JUŻ NIE POTRZEBA
-                          //* TERAZ DOBRZE BY BYŁO ABY DODAC, ŻE PRZY USUNIĘCIU NA DOLE W SNACKBARZE WYŚWIETLANE JEST TEN IMIĘ USUNIĘTE LUB DODANEGO DZIECKA
+                      //*TAK TERAZ DZIAŁA, TYLKO TRZEBA WSZYSTKIE STATE EMITOWAĆ, BO WCHODZI W INITIAL, CZYLI TYLKO ADDED JEST NA TRUE,
+                      //* A RESZTA RESETUJE STATE DO DEFAULT VALUE
+                      //* TEGO JUŻ NIE POTRZEBA
+                      //* TERAZ DOBRZE BY BYŁO ABY DODAC, ŻE PRZY USUNIĘCIU NA DOLE W SNACKBARZE WYŚWIETLANE JEST TEN IMIĘ USUNIĘTE LUB DODANEGO DZIECKA
                       // context.read<EditPersonalInfoCubit>().addedFlag();
                       // print(context
                       //     .read<EditPersonalInfoCubit>()
@@ -386,8 +385,8 @@ class CustomAlertDialog extends StatelessWidget {
 
   final TextEditingController controller;
   final bool weight;
-  dynamic tempSelectedValue1 = 0;
-  dynamic tempSelectedValue2 = 0;
+  int tempSelectedValue1 = 0;
+  int tempSelectedValue2 = 0;
   final NumberFormat formatter = NumberFormat("00");
 
   @override
@@ -437,7 +436,7 @@ class CustomAlertDialog extends StatelessWidget {
               onPressed: () {
                 context
                     .read<MeasurmentsCubit>()
-                    .getControllerValue(tempSelectedValue1, tempSelectedValue2);
+                    .updateValues(tempSelectedValue1, tempSelectedValue2);
                 var newValues = weightState.copyWith(
                   currentValue1: tempSelectedValue1,
                   currentValue2: tempSelectedValue2,
