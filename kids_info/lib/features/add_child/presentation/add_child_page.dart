@@ -385,8 +385,7 @@ class CustomAlertDialog extends StatelessWidget {
 
   final TextEditingController controller;
   final bool weight;
-  int tempSelectedValue1 = 0;
-  int tempSelectedValue2 = 0;
+
   final NumberFormat formatter = NumberFormat("00");
 
   @override
@@ -407,7 +406,7 @@ class CustomAlertDialog extends StatelessWidget {
                   child: CupertinoPicker(
                     itemExtent: 32,
                     onSelectedItemChanged: (index) {
-                      tempSelectedValue1 = index;
+                      context.read<MeasurmentsCubit>().setTempSelectedValue1(index);
                     },
                     children: List<Widget>.generate(
                       10,
@@ -421,7 +420,7 @@ class CustomAlertDialog extends StatelessWidget {
                 child: CupertinoPicker(
                   itemExtent: 32,
                   onSelectedItemChanged: (index) {
-                    tempSelectedValue2 = index;
+                    context.read<MeasurmentsCubit>().setTempSelectedValue2(index);
                   },
                   children: List<Widget>.generate(
                     100,
@@ -434,13 +433,18 @@ class CustomAlertDialog extends StatelessWidget {
           actions: [
             ElevatedButton(
               onPressed: () {
-                context
-                    .read<MeasurmentsCubit>()
-                    .updateValues(tempSelectedValue1, tempSelectedValue2);
+
                 var newValues = weightState.copyWith(
-                  currentValue1: tempSelectedValue1,
-                  currentValue2: tempSelectedValue2,
+                  currentValue1: weightState.currentValue1,
+                  currentValue2: weightState.currentValue2,
                 );
+                // context
+                //     .read<MeasurmentsCubit>()
+                //     .updateValues(tempSelectedValue1, tempSelectedValue2);
+                // var newValues = weightState.copyWith(
+                //   currentValue1: tempSelectedValue1,
+                //   currentValue2: tempSelectedValue2,
+                // );
                 if (weight) {
                   controller.text =
                       '${newValues.currentValue1}${'${formatter.format(newValues.currentValue2)}0'}';

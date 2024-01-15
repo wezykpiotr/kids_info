@@ -4,8 +4,8 @@ part of 'measurments_cubit.dart';
 @freezed
 class MeasurmentsState with _$MeasurmentsState {
   factory MeasurmentsState({
-   @Default(0) currentValue1,
-   @Default(0) currentValue2,
+   @Default(0) int currentValue1,
+   @Default(0) int currentValue2,
 
   }) = _MeasurmentsState;
 }

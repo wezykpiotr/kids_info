@@ -14,10 +14,19 @@ class MeasurmentsCubit extends Cubit<MeasurmentsState> {
   /// Updates the current values in the state.
   ///
   /// The [selectedValue1] and [selectedValue2] parameters are the new values to update to.
-  void updateValues(int selectedValue1, int selectedValue2) {
-    emit(
-      state.copyWith(
-          currentValue1: selectedValue1, currentValue2: selectedValue2),
-    );
+  // void updateValues(int selectedValue1, int selectedValue2) {
+  //   emit(
+  //     state.copyWith(
+  //         currentValue1: selectedValue1, currentValue2: selectedValue2),
+  //   );
+  // }
+
+
+  void setTempSelectedValue1(int value) {
+    emit(state.copyWith(currentValue1: value));
+  }
+
+  void setTempSelectedValue2(int value) {
+    emit(state.copyWith(currentValue2: value));
   }
 }
