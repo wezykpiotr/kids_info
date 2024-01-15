@@ -6,6 +6,7 @@ import 'package:kids_info/features/add_child/presentation/add_child_page.dart';
 import 'package:kids_info/features/auth/user_profile.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/edit_personal_info_page.dart';
+import 'package:kids_info/features/home/presentation/tabs/analytics_info_page.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/analytics_cubit.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/drop_down_button_name_cubit.dart';
 import 'package:kids_info/features/home/presentation/tabs/personal_info_page.dart';
@@ -238,8 +239,28 @@ class HomePageChild extends StatelessWidget {
                                   children: [
                                     if (personalInfo.isNotEmpty)
                                       PersonalInfo(id: personalInfo[index].id),
-                                    if (personalInfo.isNotEmpty)
-                                      PersonalInfo(id: personalInfo[index].id),
+                                    // if (personalInfo.isNotEmpty)
+                                    //   AnalyticsInfoPage(
+                                    //       id: context
+                                    //           .read<AnalyticsCubit>()
+                                    //           .state
+                                    //           .items[index]
+                                    //           .id),
+
+                                    AnalyticsInfoPage(
+                                      id: context
+                                                  .watch<AnalyticsCubit>()
+                                                  .state
+                                                  .items
+                                                  .length >
+                                              index
+                                          ? context
+                                              .watch<AnalyticsCubit>()
+                                              .state
+                                              .items[index]
+                                              .id
+                                          : '',
+                                    ),
                                     if (personalInfo.isNotEmpty)
                                       PersonalInfo(id: personalInfo[index].id),
                                     if (personalInfo.isNotEmpty)

@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MeasurmentsState {
-  dynamic get currentValue1 => throw _privateConstructorUsedError;
-  dynamic get currentValue2 => throw _privateConstructorUsedError;
+  int get currentValue1 => throw _privateConstructorUsedError;
+  int get currentValue2 => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MeasurmentsStateCopyWith<MeasurmentsState> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $MeasurmentsStateCopyWith<$Res> {
           MeasurmentsState value, $Res Function(MeasurmentsState) then) =
       _$MeasurmentsStateCopyWithImpl<$Res, MeasurmentsState>;
   @useResult
-  $Res call({dynamic currentValue1, dynamic currentValue2});
+  $Res call({int currentValue1, int currentValue2});
 }
 
 /// @nodoc
@@ -46,18 +46,18 @@ class _$MeasurmentsStateCopyWithImpl<$Res, $Val extends MeasurmentsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentValue1 = freezed,
-    Object? currentValue2 = freezed,
+    Object? currentValue1 = null,
+    Object? currentValue2 = null,
   }) {
     return _then(_value.copyWith(
-      currentValue1: freezed == currentValue1
+      currentValue1: null == currentValue1
           ? _value.currentValue1
           : currentValue1 // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      currentValue2: freezed == currentValue2
+              as int,
+      currentValue2: null == currentValue2
           ? _value.currentValue2
           : currentValue2 // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as int,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$_MeasurmentsStateCopyWith<$Res>
       __$$_MeasurmentsStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({dynamic currentValue1, dynamic currentValue2});
+  $Res call({int currentValue1, int currentValue2});
 }
 
 /// @nodoc
@@ -84,14 +84,18 @@ class __$$_MeasurmentsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentValue1 = freezed,
-    Object? currentValue2 = freezed,
+    Object? currentValue1 = null,
+    Object? currentValue2 = null,
   }) {
     return _then(_$_MeasurmentsState(
-      currentValue1:
-          freezed == currentValue1 ? _value.currentValue1! : currentValue1,
-      currentValue2:
-          freezed == currentValue2 ? _value.currentValue2! : currentValue2,
+      currentValue1: null == currentValue1
+          ? _value.currentValue1
+          : currentValue1 // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentValue2: null == currentValue2
+          ? _value.currentValue2
+          : currentValue2 // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -103,10 +107,10 @@ class _$_MeasurmentsState implements _MeasurmentsState {
 
   @override
   @JsonKey()
-  final dynamic currentValue1;
+  final int currentValue1;
   @override
   @JsonKey()
-  final dynamic currentValue2;
+  final int currentValue2;
 
   @override
   String toString() {
@@ -118,17 +122,14 @@ class _$_MeasurmentsState implements _MeasurmentsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MeasurmentsState &&
-            const DeepCollectionEquality()
-                .equals(other.currentValue1, currentValue1) &&
-            const DeepCollectionEquality()
-                .equals(other.currentValue2, currentValue2));
+            (identical(other.currentValue1, currentValue1) ||
+                other.currentValue1 == currentValue1) &&
+            (identical(other.currentValue2, currentValue2) ||
+                other.currentValue2 == currentValue2));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(currentValue1),
-      const DeepCollectionEquality().hash(currentValue2));
+  int get hashCode => Object.hash(runtimeType, currentValue1, currentValue2);
 
   @JsonKey(ignore: true)
   @override
@@ -139,13 +140,12 @@ class _$_MeasurmentsState implements _MeasurmentsState {
 
 abstract class _MeasurmentsState implements MeasurmentsState {
   factory _MeasurmentsState(
-      {final dynamic currentValue1,
-      final dynamic currentValue2}) = _$_MeasurmentsState;
+      {final int currentValue1, final int currentValue2}) = _$_MeasurmentsState;
 
   @override
-  dynamic get currentValue1;
+  int get currentValue1;
   @override
-  dynamic get currentValue2;
+  int get currentValue2;
   @override
   @JsonKey(ignore: true)
   _$$_MeasurmentsStateCopyWith<_$_MeasurmentsState> get copyWith =>
