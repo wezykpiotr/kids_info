@@ -16,6 +16,7 @@ class DetailsCubit extends Cubit<DetailsState> {
 
   Future<void> getItemWithID(String id) async {
     final itemModel = await _itemsRepository.get(id: id);
-    emit(DetailsState(analyticsModel: itemModel));
+      emit(DetailsState(analyticsModel: itemModel));
+    
   }
 }
