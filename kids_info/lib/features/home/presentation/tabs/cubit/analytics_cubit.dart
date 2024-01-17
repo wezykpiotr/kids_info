@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -9,35 +10,52 @@ import 'package:kids_info/features/edit_analytics_info_data/domain/analytics_mod
 part 'analytics_state.dart';
 part 'analytics_cubit.freezed.dart';
 
-@lazySingleton
+@injectable
 class AnalyticsCubit extends Cubit<AnalyticsState> {
   AnalyticsCubit(this._analyticsRepository) : super(AnalyticsState());
 
   StreamSubscription? _streamSubscription;
   final AnalyticsRepository _analyticsRepository;
+  bool emitted = false;
 
   Future<void> start() async {
-    emit(
-      AnalyticsState(status: Status.loading),
-    );
-    _streamSubscription = _analyticsRepository.getItemsStream().listen(
-      (items) {
-        emit(
-          AnalyticsState(
-              items: items, status: Status.success, errorMessage: ''),
+    if (!emitted) {
+      emit(AnalyticsState(status: Status.loading));
+      try {
+        _streamSubscription = _analyticsRepository.getItemsStream().listen(
+          (items) {
+            emit(
+              AnalyticsState(
+                  items: items, status: Status.success, errorMessage: ''),
+            );
+          },
         );
-      },
-    )..onError(
-        (error) {
-          emit(
-            AnalyticsState(
-              errorMessage: error.toString(),
-              status: Status.error,
-            ),
-          );
-        },
-      );
+      } catch (error) {
+        if (!emitted) emit(AnalyticsState(errorMessage: error.toString()));
+      }
+    }
   }
+
+  // emit(
+  //   AnalyticsState(status: Status.loading),
+  // );
+  // _streamSubscription = _analyticsRepository.getItemsStream().listen(
+  //   (items) {
+  //     emit(
+  //       AnalyticsState(
+  //           items: items, status: Status.success, errorMessage: ''),
+  //     );
+  //   },
+  // )..onError(
+  //     (error) {
+  //       emit(
+  //         AnalyticsState(
+  //           errorMessage: error.toString(),
+  //           status: Status.error,
+  //         ),
+  //       );
+  //     },
+  //   );
 
   Future<void> remove({required String documentID}) async {
     try {
@@ -53,6 +71,8 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
   @override
   Future<void> close() {
     _streamSubscription?.cancel();
+    emitted = true;
+
     return super.close();
   }
 }

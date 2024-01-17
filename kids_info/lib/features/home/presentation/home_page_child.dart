@@ -8,6 +8,7 @@ import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/ed
 import 'package:kids_info/features/edit_personal_info_data/presentation/edit_personal_info_page.dart';
 import 'package:kids_info/features/home/presentation/tabs/analytics_info_page.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/analytics_cubit.dart';
+import 'package:kids_info/features/home/presentation/tabs/cubit/details_cubit.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/drop_down_button_name_cubit.dart';
 import 'package:kids_info/features/home/presentation/tabs/personal_info_page.dart';
 import 'package:kids_info/util/my_drawer.dart';
@@ -44,7 +45,9 @@ class HomePageChild extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<EditPersonalInfoCubit>()..start(),
         ),
-        BlocProvider(create: (context) => DropDownButtonNameCubit()),
+        BlocProvider(
+          create: (context) => DropDownButtonNameCubit(),
+        ),
       ],
       child: BlocListener<EditPersonalInfoCubit, EditPersonalInfoState>(
         listener: (context, state) {
@@ -68,7 +71,7 @@ class HomePageChild extends StatelessWidget {
         child: Scaffold(
           body: BlocBuilder<DropDownButtonNameCubit, DropDownButtonNameState>(
             builder: (context, dropDownState) {
-              final index = dropDownState.index;
+              final int index = dropDownState.index;
               final selectedValue = dropDownState.currentId;
               return BlocBuilder<EditPersonalInfoCubit, EditPersonalInfoState>(
                 builder: (context, personalState) {
@@ -108,6 +111,7 @@ class HomePageChild extends StatelessWidget {
                         );
                       }
                       final personalInfo = personalState.items;
+
                       return DefaultTabController(
                         length: myTabs.length,
                         child: Scaffold(
@@ -239,27 +243,35 @@ class HomePageChild extends StatelessWidget {
                                   children: [
                                     if (personalInfo.isNotEmpty)
                                       PersonalInfo(id: personalInfo[index].id),
-                                    // if (personalInfo.isNotEmpty)
-                                    //   AnalyticsInfoPage(
-                                    //       id: context
-                                    //           .read<AnalyticsCubit>()
-                                    //           .state
-                                    //           .items[index]
-                                    //           .id),
-
-                                    AnalyticsInfoPage(
-                                      id: context
-                                                  .watch<AnalyticsCubit>()
-                                                  .state
-                                                  .items
-                                                  .length >
-                                              index
-                                          ? context
-                                              .watch<AnalyticsCubit>()
-                                              .state
-                                              .items[index]
-                                              .id
-                                          : '',
+                                    BlocBuilder<AnalyticsCubit, AnalyticsState>(
+                                      builder: (context, state) {
+                                        if (state.status == Status.loading) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        } else if (state.status ==
+                                            Status.error) {
+                                          return Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(state.errorMessage ??
+                                                    "Unkown error"),
+                                              ],
+                                            ),
+                                          );
+                                        } else if (state.status ==
+                                            Status.success) {
+                                          final analyticsItems = state.items;
+                                          return AnalyticsInfoPage(
+                                            id: analyticsItems[index].id,
+                                          );
+                                        }
+                                        return const Center(
+                                          child: Text('No data'),
+                                        );
+                                      },
                                     ),
                                     if (personalInfo.isNotEmpty)
                                       PersonalInfo(id: personalInfo[index].id),
