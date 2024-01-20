@@ -63,7 +63,7 @@ class EditPersonalInfoRepository {
     );
   }
 
-  Future<void> add(
+  Future<String> add(
     String name,
     DateTime birthday,
     String weight,
@@ -76,7 +76,7 @@ class EditPersonalInfoRepository {
     if (userID == null) {
       throw Exception('User is not logged in');
     }
-    await FirebaseFirestore.instance
+    DocumentReference docRef = await FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('personal_info')
@@ -91,6 +91,7 @@ class EditPersonalInfoRepository {
         'twin': twin,
       },
     );
+    return docRef.id;
   }
 
   Future<void> updateBabyInfo(

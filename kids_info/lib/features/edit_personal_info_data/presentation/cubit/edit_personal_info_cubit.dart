@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kids_info/app/core/enums.dart';
+import 'package:kids_info/features/edit_analytics_info_data/data/analytics_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/data/repository/edit_personal_info_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/domain/edit_personal_info_model.dart';
 
@@ -13,11 +14,14 @@ part 'edit_personal_info_cubit.freezed.dart';
 
 @injectable
 class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
-  EditPersonalInfoCubit(this._editPersonalInfoRepository)
+  EditPersonalInfoCubit(
+      this._editPersonalInfoRepository, this._analyticsRepository)
       : super(EditPersonalInfoState());
 
   StreamSubscription? _streamSubscription;
   final EditPersonalInfoRepository _editPersonalInfoRepository;
+  final AnalyticsRepository _analyticsRepository;
+  bool _isClosed = false;
 
   Future<void> start() async {
     emit(EditPersonalInfoState(status: Status.loading));
@@ -101,7 +105,7 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
     required String sex,
   }) async {
     try {
-      await _editPersonalInfoRepository.add(
+      String docId = await _editPersonalInfoRepository.add(
         name,
         birthday,
         weight,
@@ -110,16 +114,28 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
         twin,
         headSize,
       );
-      emit(
-        EditPersonalInfoState(
-            added: true, items: state.items, status: Status.success),
+
+      await _analyticsRepository.addAnalytics(
+        docId,
+        age: calculateAge(birthday),
+        height: height,
+        weight: weight,
+        headSize: headSize,
       );
+      if (!_isClosed) {
+        emit(
+          EditPersonalInfoState(
+              added: true, items: state.items, status: Status.success),
+        );
+      }
     } catch (error) {
-      emit(
-        EditPersonalInfoState(
-          errorMessage: error.toString(),
-        ),
-      );
+      if (_isClosed) {
+        emit(
+          EditPersonalInfoState(
+            errorMessage: error.toString(),
+          ),
+        );
+      }
     }
   }
 
@@ -150,7 +166,9 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
 
   Future<void> removeBabyData(String id) async {
     try {
+      await _analyticsRepository.delete(id: id);
       await _editPersonalInfoRepository.delete(id: id);
+
       emit(
         EditPersonalInfoState(
           deleted: true,
@@ -166,8 +184,22 @@ class EditPersonalInfoCubit extends Cubit<EditPersonalInfoState> {
     }
   }
 
+  int calculateAge(DateTime birthday) {
+    final currentDate = DateTime.now();
+    int age = currentDate.year - birthday.year;
+    if (birthday.month > currentDate.month) {
+      age--;
+    } else if (birthday.month == currentDate.month) {
+      if (birthday.day > currentDate.day) {
+        age--;
+      }
+    }
+    return age;
+  }
+
   @override
   Future<void> close() {
+    _isClosed = true;
     _streamSubscription?.cancel();
     return super.close();
   }

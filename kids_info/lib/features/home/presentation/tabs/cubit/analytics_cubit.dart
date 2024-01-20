@@ -16,23 +16,20 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
 
   StreamSubscription? _streamSubscription;
   final AnalyticsRepository _analyticsRepository;
-  bool emitted = false;
 
   Future<void> start() async {
-    if (!emitted) {
-      emit(AnalyticsState(status: Status.loading));
-      try {
-        _streamSubscription = _analyticsRepository.getItemsStream().listen(
-          (items) {
-            emit(
-              AnalyticsState(
-                  items: items, status: Status.success, errorMessage: ''),
-            );
-          },
-        );
-      } catch (error) {
-        if (!emitted) emit(AnalyticsState(errorMessage: error.toString()));
-      }
+    emit(AnalyticsState(status: Status.loading));
+    try {
+      _streamSubscription = _analyticsRepository.getItemsStream().listen(
+        (items) {
+          emit(
+            AnalyticsState(
+                items: items, status: Status.success, errorMessage: ''),
+          );
+        },
+      );
+    } catch (error) {
+      emit(AnalyticsState(errorMessage: error.toString()));
     }
   }
 
@@ -71,8 +68,6 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
   @override
   Future<void> close() {
     _streamSubscription?.cancel();
-    emitted = true;
-
     return super.close();
   }
 }

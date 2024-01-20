@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:kids_info/features/edit_analytics_info_data/data/analytics_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/data/repository/edit_personal_info_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 
@@ -76,9 +77,9 @@ class EditPersonalInfoPage extends StatelessWidget {
         //       EditPersonalInfoCubit(EditPersonalInfoRepository())..start(),
         // ),
         BlocProvider(
-          create: (context) =>
-              EditPersonalInfoCubit(EditPersonalInfoRepository())
-                ..getItemWithID(id),
+          create: (context) => EditPersonalInfoCubit(
+              EditPersonalInfoRepository(), AnalyticsRepository())
+            ..getItemWithID(id),
         ),
       ],
       child: Scaffold(
@@ -147,12 +148,14 @@ class EditPersonalInfoPage extends StatelessWidget {
                     ),
                     TextFormField(
                       controller: weightController,
-                      decoration: const InputDecoration(hintText: 'Weight in grams'),
+                      decoration:
+                          const InputDecoration(hintText: 'Weight in grams'),
                       keyboardType: TextInputType.number,
                     ),
                     TextFormField(
                       controller: heightController,
-                      decoration: const InputDecoration(hintText: 'Height in centimeters'),
+                      decoration: const InputDecoration(
+                          hintText: 'Height in centimeters'),
                       keyboardType: TextInputType.number,
                     ),
                     Row(
@@ -219,8 +222,8 @@ class EditPersonalInfoPage extends StatelessWidget {
                                       .updateData(
                                         id: myItem.id,
                                         name: nameController.text,
-                                        birthday:DateTime.parse(
-                                                birthdayController.text),
+                                        birthday: DateTime.parse(
+                                            birthdayController.text),
                                         weight:
                                             int.parse(weightController.text),
                                         height:

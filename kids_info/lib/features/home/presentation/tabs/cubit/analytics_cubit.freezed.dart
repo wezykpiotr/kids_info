@@ -113,7 +113,9 @@ class __$$_AnalyticsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AnalyticsState implements _AnalyticsState {
+class _$_AnalyticsState
+    with DiagnosticableTreeMixin
+    implements _AnalyticsState {
   _$_AnalyticsState(
       {final List<AnalyticsModel> items = const [],
       this.status = Status.initial,
@@ -136,8 +138,18 @@ class _$_AnalyticsState implements _AnalyticsState {
   final String? errorMessage;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AnalyticsState(items: $items, status: $status, errorMessage: $errorMessage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AnalyticsState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
   @override

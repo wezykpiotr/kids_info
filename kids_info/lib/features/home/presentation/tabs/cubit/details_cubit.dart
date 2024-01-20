@@ -7,7 +7,7 @@ import 'package:kids_info/features/edit_analytics_info_data/domain/analytics_mod
 part 'details_cubit.freezed.dart';
 part 'details_state.dart';
 
-@lazySingleton
+@injectable
 class DetailsCubit extends Cubit<DetailsState> {
   DetailsCubit(this._itemsRepository)
       : super(DetailsState(analyticsModel: null));

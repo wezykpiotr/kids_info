@@ -54,19 +54,22 @@ class AnalyticsRepository {
         .collection('analytics')
         .doc(id)
         .get();
-    return AnalyticsModel(doc.id,
-            doc['age'],
-            doc['height'],
-            doc['weight'],
-            doc['headSize'],);
+    return AnalyticsModel(
+      doc.id,
+      doc['age'],
+      doc['height'],
+      doc['weight'],
+      doc['headSize'],
+    );
   }
 
-  Future<void> add(
-    num age,
-    num height,
-    num weight,
-    num headSize,
-  ) async {
+  Future<void> addAnalytics(
+    String docId, {
+    required num age,
+    required num height,
+    required String weight,
+    required num headSize,
+  }) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
       throw Exception('User is not logged in');
@@ -75,7 +78,8 @@ class AnalyticsRepository {
         .collection('users')
         .doc(userID)
         .collection('analytics')
-        .add(
+        .doc(docId)
+        .set(
       {
         'age': age,
         'height': height,
