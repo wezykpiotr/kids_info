@@ -6,6 +6,8 @@ import 'package:kids_info/features/add_child/presentation/cubit/controller_cubit
 import 'package:kids_info/features/add_child/presentation/cubit/dropdown_button_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/switch_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/measurments_cubit.dart';
+import 'package:kids_info/features/edit_analytics_info_data/data/analytics_repository.dart';
+import 'package:kids_info/features/edit_personal_info_data/data/repository/edit_personal_info_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 
 class AddChildPage extends StatelessWidget {
@@ -33,11 +35,10 @@ class AddChildPage extends StatelessWidget {
         BlocProvider(
           create: (context) => SwitchCubit(),
         ),
-        // BlocProvider(
-        //   create: (context) => EditPersonalInfoCubit(
-        //     EditPersonalInfoRepository(),
-        //   ),
-        // ),
+        BlocProvider(
+          create: (context) => EditPersonalInfoCubit(
+              EditPersonalInfoRepository(), AnalyticsRepository()),
+        ),
       ],
       child: Builder(builder: (context) {
         return Scaffold(
@@ -328,7 +329,6 @@ class AddChildPage extends StatelessWidget {
                       //*TAK TERAZ DZIAŁA, TYLKO TRZEBA WSZYSTKIE STATE EMITOWAĆ, BO WCHODZI W INITIAL, CZYLI TYLKO ADDED JEST NA TRUE,
                       //* A RESZTA RESETUJE STATE DO DEFAULT VALUE
                       //* TEGO JUŻ NIE POTRZEBA
-                      //* TERAZ DOBRZE BY BYŁO ABY DODAC, ŻE PRZY USUNIĘCIU NA DOLE W SNACKBARZE WYŚWIETLANE JEST TEN IMIĘ USUNIĘTE LUB DODANEGO DZIECKA
                       // context.read<EditPersonalInfoCubit>().addedFlag();
                       // print(context
                       //     .read<EditPersonalInfoCubit>()
@@ -406,7 +406,9 @@ class CustomAlertDialog extends StatelessWidget {
                   child: CupertinoPicker(
                     itemExtent: 32,
                     onSelectedItemChanged: (index) {
-                      context.read<MeasurmentsCubit>().setTempSelectedValue1(index);
+                      context
+                          .read<MeasurmentsCubit>()
+                          .setTempSelectedValue1(index);
                     },
                     children: List<Widget>.generate(
                       10,
@@ -420,7 +422,9 @@ class CustomAlertDialog extends StatelessWidget {
                 child: CupertinoPicker(
                   itemExtent: 32,
                   onSelectedItemChanged: (index) {
-                    context.read<MeasurmentsCubit>().setTempSelectedValue2(index);
+                    context
+                        .read<MeasurmentsCubit>()
+                        .setTempSelectedValue2(index);
                   },
                   children: List<Widget>.generate(
                     100,
@@ -433,7 +437,6 @@ class CustomAlertDialog extends StatelessWidget {
           actions: [
             ElevatedButton(
               onPressed: () {
-
                 var newValues = weightState.copyWith(
                   currentValue1: weightState.currentValue1,
                   currentValue2: weightState.currentValue2,
