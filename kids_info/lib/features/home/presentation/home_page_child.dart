@@ -31,6 +31,50 @@ class HomePageChild extends StatelessWidget {
     ),
   ];
 
+  FloatingActionButton _buildFloatingActionButton(
+      BuildContext context, TabIndexState state) {
+    if (state.index == 0) {
+      return FloatingActionButton(
+        backgroundColor: Colors.grey[800],
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: BlocProvider.of<EditPersonalInfoCubit>(context),
+              child: AddChildPage(),
+            ),
+          ),
+        ),
+        child: const Icon(Icons.add),
+      );
+    } else if (state.index == 1) {
+      return FloatingActionButton(
+        backgroundColor: Colors.grey[800],
+        onPressed: () => {},
+        child: const Icon(Icons.add_chart_rounded),
+      );
+    } else if (state.index == 2) {
+      return FloatingActionButton(
+        backgroundColor: Colors.grey[800],
+        onPressed: () => {},
+        child: const Icon(
+          Icons.add_alert,
+        ),
+      );
+    } else if (state.index == 3) {
+      return FloatingActionButton(
+        backgroundColor: Colors.grey[800],
+        onPressed: () => {},
+        child: const Icon(Icons.add_a_photo),
+      );
+    } else {
+      return FloatingActionButton(
+        backgroundColor: Colors.grey[800],
+        onPressed: () => {},
+        child: const Icon(Icons.refresh),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -150,242 +194,213 @@ class HomePageChild extends StatelessWidget {
 
                           return BlocProvider(
                             create: (context) => TabIndexCubit(),
-                            child: DefaultTabController(
-                              length: myTabs.length,
-                              child: Builder(builder: (context) {
-                                var tabController =
-                                    DefaultTabController.of(context);
-                                tabController.addListener(() {
-                                  context
-                                      .read<TabIndexCubit>()
-                                      .updateIndex(tabController.index);
-                                });
-                                return Scaffold(
-                                  appBar: AppBar(
-                                    backgroundColor: Colors.transparent,
-                                    iconTheme:
-                                        IconThemeData(color: Colors.grey[800]),
-                                    elevation: 0,
-                                    title: Row(
-                                      children: [
-                                        DropdownButton(
-                                          hint: const Text('Select a child'),
-                                          onChanged: (value) {
-                                            if (value == null) return;
-                                            final index = personalInfo
-                                                .indexWhere((element) =>
-                                                    element.id == value);
-                                            context
-                                                .read<DropDownButtonNameCubit>()
-                                                .updateCurrentIdAndIndex(
-                                                  value.toString(),
-                                                  index,
-                                                );
-                                          },
-                                          items: personalInfo
-                                              .map(
-                                                (element) => DropdownMenuItem(
-                                                  value: element.id,
-                                                  child: SizedBox(
-                                                    width: 150,
-                                                    child: Dismissible(
-                                                      key: Key(element.id),
-                                                      direction:
-                                                          DismissDirection
-                                                              .endToStart,
-                                                      onDismissed: (direction) {
-                                                        context
-                                                            .read<
-                                                                EditPersonalInfoCubit>()
-                                                            .removeBabyData(
-                                                                element.id);
+                            child: BlocBuilder<TabIndexCubit, TabIndexState>(
+                              builder: (context1, tabState) {
+                                return DefaultTabController(
+                                  length: myTabs.length,
+                                  child: Builder(builder: (context) {
+                                    final tabController =
+                                        DefaultTabController.of(context);
 
-                                                        context
-                                                            .read<
-                                                                DropDownButtonNameCubit>()
-                                                            .updateCurrentIdAndIndex(
-                                                                null, 0);
+                                    tabController.animation!.addListener(() {
+                                      !tabController.indexIsChanging
+                                          ? context
+                                              .read<TabIndexCubit>()
+                                              .updateIndex(tabController.index)
+                                          : context
+                                              .read<TabIndexCubit>()
+                                              .updateIndex(tabController.index);
+                                    });
+                                    return Scaffold(
+                                      appBar: AppBar(
+                                        backgroundColor: Colors.transparent,
+                                        iconTheme: IconThemeData(
+                                            color: Colors.grey[800]),
+                                        elevation: 0,
+                                        title: Row(
+                                          children: [
+                                            DropdownButton(
+                                              hint:
+                                                  const Text('Select a child'),
+                                              onChanged: (value) {
+                                                if (value == null) return;
+                                                final index = personalInfo
+                                                    .indexWhere((element) =>
+                                                        element.id == value);
+                                                context
+                                                    .read<
+                                                        DropDownButtonNameCubit>()
+                                                    .updateCurrentIdAndIndex(
+                                                      value.toString(),
+                                                      index,
+                                                    );
+                                              },
+                                              items: personalInfo
+                                                  .map(
+                                                    (element) =>
+                                                        DropdownMenuItem(
+                                                      value: element.id,
+                                                      child: SizedBox(
+                                                        width: 150,
+                                                        child: Dismissible(
+                                                          key: Key(element.id),
+                                                          direction:
+                                                              DismissDirection
+                                                                  .endToStart,
+                                                          onDismissed:
+                                                              (direction) {
+                                                            context
+                                                                .read<
+                                                                    EditPersonalInfoCubit>()
+                                                                .removeBabyData(
+                                                                    element.id);
 
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: ListTile(
-                                                        title:
-                                                            Text(element.name),
+                                                            context
+                                                                .read<
+                                                                    DropDownButtonNameCubit>()
+                                                                .updateCurrentIdAndIndex(
+                                                                    null, 0);
+
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: ListTile(
+                                                            title: Text(
+                                                                element.name),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                              )
-                                              .toList(),
-                                          value: selectedValue ??
-                                              personalInfo[index].id,
-                                        ),
-                                      ],
-                                    ),
-                                    actions: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 24.0),
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.person,
-                                            color: Colors.grey[800],
-                                            size: 36,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const UserProfileScreen(),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  drawer: MyDrawer(
-                                    onAnalyticsInfoTap: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditPersonalInfoPage(
-                                                  id: personalState
-                                                      .items[0].id),
-                                        ),
-                                      );
-                                    },
-                                    onAppointmentsTap: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditPersonalInfoPage(
-                                                  id: personalState
-                                                      .items[0].id),
-                                        ),
-                                      );
-                                    },
-                                    onDocumentsTap: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditPersonalInfoPage(
-                                                  id: personalState
-                                                      .items[0].id),
-                                        ),
-                                      );
-                                    },
-                                    onPersonalInfoTap: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditPersonalInfoPage(
-                                                  id: personalState
-                                                      .items[0].id),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  body: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 36.0, vertical: 18),
-                                      ),
-                                      TabBar(
-                                        tabs: myTabs,
-                                      ),
-                                      Expanded(
-                                        child: TabBarView(
-                                          children: [
-                                            if (personalInfo.isNotEmpty)
-                                              PersonalInfo(
-                                                  id: personalInfo[index].id),
-                                            if (personalInfo.isNotEmpty)
-                                              PersonalInfo(
-                                                  id: personalInfo[index].id),
-                                            // if (analyticsItems.isNotEmpty)
-                                            //   AnalyticsInfoPage(
-                                            //       id: analyticsItems[index].id),
-                                            if (personalInfo.isNotEmpty)
-                                              PersonalInfo(
-                                                  id: personalInfo[index].id),
-                                            if (personalInfo.isNotEmpty)
-                                              PersonalInfo(
-                                                  id: personalInfo[index].id),
-                                            if (personalInfo.isEmpty)
-                                              const Text('no'),
-                                            if (personalInfo.isEmpty)
-                                              const Text('no'),
-                                            if (personalInfo.isEmpty)
-                                              const Text('no'),
-                                            if (personalInfo.isEmpty)
-                                              const Text('no'),
+                                                  )
+                                                  .toList(),
+                                              value: selectedValue ??
+                                                  personalInfo[index].id,
+                                            ),
                                           ],
-                                          // Text(tabBarviewM(analyticsItems).length.toString()),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  floatingActionButton:
-                                      BlocBuilder<TabIndexCubit, TabIndexState>(
-                                    builder: (context, state) {
-                                      if (state.index == 0) {
-                                        return FloatingActionButton(
-                                          backgroundColor: Colors.grey[800],
-                                          onPressed: () =>
-                                              Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  BlocProvider.value(
-                                                value: BlocProvider.of<
-                                                        EditPersonalInfoCubit>(
-                                                    context),
-                                                child: AddChildPage(),
+                                        actions: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 24.0),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons.person,
+                                                color: Colors.grey[800],
+                                                size: 36,
                                               ),
+                                              onPressed: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const UserProfileScreen(),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      drawer: MyDrawer(
+                                        onAnalyticsInfoTap: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditPersonalInfoPage(
+                                                      id: personalState
+                                                          .items[0].id),
+                                            ),
+                                          );
+                                        },
+                                        onAppointmentsTap: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditPersonalInfoPage(
+                                                      id: personalState
+                                                          .items[0].id),
+                                            ),
+                                          );
+                                        },
+                                        onDocumentsTap: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditPersonalInfoPage(
+                                                      id: personalState
+                                                          .items[0].id),
+                                            ),
+                                          );
+                                        },
+                                        onPersonalInfoTap: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditPersonalInfoPage(
+                                                      id: personalState
+                                                          .items[0].id),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      body: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 36.0, vertical: 18),
+                                          ),
+                                          TabBar(
+                                            tabs: myTabs,
+                                          ),
+                                          Expanded(
+                                            child: TabBarView(
+                                              children: [
+                                                if (personalInfo.isNotEmpty)
+                                                  PersonalInfo(
+                                                      id: personalInfo[index]
+                                                          .id),
+                                                if (personalInfo.isNotEmpty)
+                                                  PersonalInfo(
+                                                      id: personalInfo[index]
+                                                          .id),
+                                                // if (analyticsItems.isNotEmpty)
+                                                //   AnalyticsInfoPage(
+                                                //       id: analyticsItems[index].id),
+                                                if (personalInfo.isNotEmpty)
+                                                  PersonalInfo(
+                                                      id: personalInfo[index]
+                                                          .id),
+                                                if (personalInfo.isNotEmpty)
+                                                  PersonalInfo(
+                                                      id: personalInfo[index]
+                                                          .id),
+                                                if (personalInfo.isEmpty)
+                                                  const Text('no'),
+                                                if (personalInfo.isEmpty)
+                                                  const Text('no'),
+                                                if (personalInfo.isEmpty)
+                                                  const Text('no'),
+                                                if (personalInfo.isEmpty)
+                                                  const Text('no'),
+                                              ],
+                                              // Text(tabBarviewM(analyticsItems).length.toString()),
                                             ),
                                           ),
-                                          child: const Icon(Icons.add),
-                                        );
-                                      } else if (state.index == 1) {
-                                        return FloatingActionButton(
-                                          backgroundColor: Colors.grey[800],
-                                          onPressed: () => {},
-                                          child: const Icon(
-                                              Icons.add_chart_rounded),
-                                        );
-                                      } else if (state.index == 2) {
-                                        return FloatingActionButton(
-                                          backgroundColor: Colors.grey[800],
-                                          onPressed: () => {},
-                                          child: const Icon(
-                                            Icons.add_alert,
-                                          ),
-                                        );
-                                      } else if (state.index == 3) {
-                                        return FloatingActionButton(
-                                          backgroundColor: Colors.grey[800],
-                                          onPressed: () => {},
-                                          child: const Icon(Icons.add_a_photo),
-                                        );
-                                      } else {
-                                        return FloatingActionButton(
-                                          backgroundColor: Colors.grey[800],
-                                          onPressed: () => {},
-                                          child: const Icon(Icons.refresh),
-                                        );
-                                      }
-                                    },
-                                  ),
+                                        ],
+                                      ),
+                                      floatingActionButton:
+                                          _buildFloatingActionButton(
+                                              context1, tabState),
+                                    );
+                                  }),
                                 );
-                              }),
+                              },
                             ),
                           );
                       }
