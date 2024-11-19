@@ -72,37 +72,11 @@ class AnalyticsInfoPage extends StatelessWidget {
                       value: "${item?.headSize} cm");
                 default:
                   return const CircularProgressIndicator();
-                // return ChildTile(
-                //     tabName: tileList[index][0],
-                //     tileColor: tileList[index][1],
-                //     imageName: tileList[index][2],
-                //     value: item?.age.toDouble());
               }
-
-              // Switch(index){
-              //   case '0': item.age;
-              // }
-              // return ChildTile(
-              //     tabName: tileList[index][0],
-              //     tileColor: tileList[index][1],
-              //     imageName: tileList[index][2],
-              //     value: calculateThevalue(index));
             },
           );
         },
       ),
     );
   }
-
-  // calculateThevalue(int index, BuildContext context) {
-  //   switch (index) {
-  //     case 0:
-  //       ChildTile(
-  //         value: item.age,
-  //       );
-
-  //       break;
-  //     default:
-  //   }
-  // }
 }

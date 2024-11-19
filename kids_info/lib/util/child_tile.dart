@@ -28,14 +28,14 @@ class ChildTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Image.asset(imageName),
             ),
             Text(
               value.toString(),
             ),
             Padding(
-              padding: const EdgeInsets.all(32.0),
+              padding: const EdgeInsets.all(16.0),
               child: Text(
                 tabName,
                 style: const TextStyle(
