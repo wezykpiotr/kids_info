@@ -59,7 +59,6 @@ class PersonalInfo extends StatelessWidget{
                     imageName: tileList[index][2],
                     value: dateFormatted(item.birthday));
               default:
-                // const CircularProgressIndicator();
                 return const CircularProgressIndicator();
             }
           },

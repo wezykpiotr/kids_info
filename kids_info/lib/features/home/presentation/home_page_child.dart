@@ -6,9 +6,12 @@ import 'package:kids_info/features/add_child/presentation/add_child_page.dart';
 import 'package:kids_info/features/auth/user_profile.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/edit_personal_info_page.dart';
+import 'package:kids_info/features/home/presentation/tabs/analytics_info_page.dart';
+import 'package:kids_info/features/home/presentation/tabs/appointments_info.page.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/analytics_cubit.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/drop_down_button_name_cubit.dart';
 import 'package:kids_info/features/home/presentation/tabs/cubit/tab_index_cubit.dart';
+import 'package:kids_info/features/home/presentation/tabs/documents_info_page.dart';
 import 'package:kids_info/features/home/presentation/tabs/personal_info_page.dart';
 import 'package:kids_info/util/my_drawer.dart';
 import 'package:kids_info/util/my_tab.dart';
@@ -366,20 +369,17 @@ class HomePageChild extends StatelessWidget {
                                                       id: personalInfo[index]
                                                           .id),
                                                 if (personalInfo.isNotEmpty)
-                                                  PersonalInfo(
-                                                      id: personalInfo[index]
-                                                          .id),
+                                                  AnalyticsInfoPage(
+                                                    id: analyticsItems[index]
+                                                        .id,
+                                                  ),
                                                 // if (analyticsItems.isNotEmpty)
                                                 //   AnalyticsInfoPage(
                                                 //       id: analyticsItems[index].id),
                                                 if (personalInfo.isNotEmpty)
-                                                  PersonalInfo(
-                                                      id: personalInfo[index]
-                                                          .id),
+                                                  const DocumentsInfoPage(),
                                                 if (personalInfo.isNotEmpty)
-                                                  PersonalInfo(
-                                                      id: personalInfo[index]
-                                                          .id),
+                                                  const AppointmentsInfoPage(),
                                                 if (personalInfo.isEmpty)
                                                   const Text('no'),
                                                 if (personalInfo.isEmpty)
