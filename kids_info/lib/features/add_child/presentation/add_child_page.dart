@@ -162,7 +162,7 @@ class AddChildPage extends StatelessWidget {
                               width: 20,
                             ),
                             const Text("Twin?:"),
-                            // const Spacer(),
+                            const SizedBox(width: 25),
                             BlocBuilder<SwitchCubit, SwitchState>(
                               builder: (context, state) {
                                 return Switch(
@@ -187,35 +187,35 @@ class AddChildPage extends StatelessWidget {
                             const SizedBox(
                               width: 20,
                             ),
-                            const Text("Date of birth:"),
-                            const Spacer(),
-                            SizedBox(
-                              width: 200,
-                              child: TextFormField(
-                                controller: birthdayController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter a date of birth',
-                                  border: InputBorder.none,
+                            const Text("Date of birth: "),
+                            Expanded(
+                              child: SizedBox(
+                                child: TextFormField(
+                                  controller: birthdayController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter a date of birth',
+                                    border: InputBorder.none,
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  onTap: () async {
+                                    await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2010),
+                                      lastDate: DateTime(2050),
+                                    ).then(
+                                      (selectedDate) {
+                                        if (selectedDate != null) {
+                                          birthdayController.text =
+                                              DateFormat('yyyy-MM-dd')
+                                                  .format(selectedDate);
+                                          ageInDaysController.text =
+                                              countDays(selectedDate);
+                                        }
+                                      },
+                                    );
+                                  },
                                 ),
-                                keyboardType: TextInputType.text,
-                                onTap: () async {
-                                  await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2010),
-                                    lastDate: DateTime(2050),
-                                  ).then(
-                                    (selectedDate) {
-                                      if (selectedDate != null) {
-                                        birthdayController.text =
-                                            DateFormat('yyyy-MM-dd')
-                                                .format(selectedDate);
-                                        ageInDaysController.text =
-                                            countDays(selectedDate);
-                                      }
-                                    },
-                                  );
-                                },
                               ),
                             ),
                           ],
@@ -236,21 +236,21 @@ class AddChildPage extends StatelessWidget {
                           const SizedBox(
                             width: 20,
                           ),
-                          const Text("Birth weight:"),
-                          const Spacer(),
-                          SizedBox(
-                            width: 200,
-                            child: TextFormField(
-                              controller: weightController,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter a weight',
-                                border: InputBorder.none,
-                              ),
-                              keyboardType: TextInputType.text,
-                              onTap: () => _showDialog(
-                                context,
-                                weightController,
-                                true,
+                          const Text("Birth weight: "),
+                          Expanded(
+                            child: SizedBox(
+                              child: TextFormField(
+                                controller: weightController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter a weight',
+                                  border: InputBorder.none,
+                                ),
+                                keyboardType: TextInputType.text,
+                                onTap: () => _showDialog(
+                                  context,
+                                  weightController,
+                                  true,
+                                ),
                               ),
                             ),
                           ),
@@ -266,19 +266,19 @@ class AddChildPage extends StatelessWidget {
                           const SizedBox(
                             width: 20,
                           ),
-                          const Text("Birth lenght:"),
-                          const Spacer(),
-                          SizedBox(
-                            width: 200,
-                            child: TextFormField(
-                              controller: birthLenghtController,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter a lenght',
-                                border: InputBorder.none,
+                          const Text("Birth lenght: "),
+                          Expanded(
+                            child: SizedBox(
+                              child: TextFormField(
+                                controller: birthLenghtController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter a lenght',
+                                  border: InputBorder.none,
+                                ),
+                                keyboardType: TextInputType.text,
+                                onTap: () => _showDialog(
+                                    context, birthLenghtController, false),
                               ),
-                              keyboardType: TextInputType.text,
-                              onTap: () => _showDialog(
-                                  context, birthLenghtController, false),
                             ),
                           ),
                         ],
@@ -293,19 +293,19 @@ class AddChildPage extends StatelessWidget {
                           const SizedBox(
                             width: 20,
                           ),
-                          const Text("Head size:"),
-                          const Spacer(),
-                          SizedBox(
-                            width: 200,
-                            child: TextFormField(
-                              controller: headSizeController,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter a head size',
-                                border: InputBorder.none,
+                          const Text("Head size: "),
+                          Expanded(
+                            child: SizedBox(
+                              child: TextFormField(
+                                controller: headSizeController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter a head size',
+                                  border: InputBorder.none,
+                                ),
+                                keyboardType: TextInputType.text,
+                                onTap: () => _showDialog(
+                                    context, headSizeController, false),
                               ),
-                              keyboardType: TextInputType.text,
-                              onTap: () => _showDialog(
-                                  context, headSizeController, false),
                             ),
                           ),
                         ],
