@@ -1,12 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterfire_ui/auth.dart';
 import 'package:kids_info/features/home/presentation/home_page_child.dart';
 import 'package:kids_info/features/theme/cubit/theme_cubit.dart';
 
 class AuthGate extends StatelessWidget {
-  const AuthGate({Key? key}) : super(key: key);
+  const AuthGate({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +24,16 @@ class AuthGate extends StatelessWidget {
                 child: const DarkModeSwitch(),
               );
             },
-            providerConfigs: const [
-              EmailProviderConfiguration(),
+            providers: [
+              EmailAuthProvider(),
             ],
           );
         }
 
         // Render your application if authenticated
-        return  HomePageChild(
-          // currentUser: snapshot.data!,
-        );
+        return HomePageChild(
+            // currentUser: snapshot.data!,
+            );
       },
     );
   }

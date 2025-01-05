@@ -1,6 +1,6 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterfire_ui/auth.dart';
 
 import '../theme/cubit/theme_cubit.dart';
 
@@ -12,9 +12,7 @@ class UserProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: const MyAppBar(),
       body: ProfileScreen(
-        providerConfigs: const [
-          EmailProviderConfiguration(),
-        ],
+        
         actions: [
           SignedOutAction((context) {
             Navigator.of(context).pop();
