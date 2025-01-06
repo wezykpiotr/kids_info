@@ -1,466 +1,151 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/controller_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/dropdown_button_cubit.dart';
-import 'package:kids_info/features/add_child/presentation/cubit/switch_cubit.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/measurments_cubit.dart';
+import 'package:kids_info/features/add_child/presentation/cubit/switch_cubit.dart';
+import 'package:kids_info/features/add_child/presentation/widgets/child_form.dart';
+import 'package:kids_info/features/add_child/presentation/widgets/measurement_picker_dialog.dart';
 import 'package:kids_info/features/edit_analytics_info_data/data/analytics_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/data/repository/edit_personal_info_repository.dart';
 import 'package:kids_info/features/edit_personal_info_data/presentation/cubit/edit_personal_info_cubit.dart';
 
-class AddChildPage extends StatelessWidget {
-  final weightController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController birthdayController = TextEditingController();
-  final TextEditingController ageInDaysController = TextEditingController();
-  final TextEditingController birthLenghtController = TextEditingController();
-  final TextEditingController headSizeController = TextEditingController();
 
+class AddChildPage extends StatelessWidget {
   AddChildPage({super.key});
 
+  final weightController = TextEditingController();
+  final nameController = TextEditingController();
+  final birthdayController = TextEditingController();
+  final ageInDaysController = TextEditingController();
+  final birthLenghtController = TextEditingController();
+  final headSizeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    bool twin = false;
-    String sex = 'male';
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => DropdownButtonCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ControllerCubit(),
-        ),
-        BlocProvider(
-          create: (context) => SwitchCubit(),
-        ),
+        BlocProvider(create: (context) => DropdownButtonCubit()),
+        BlocProvider(create: (context) => ControllerCubit()),
+        BlocProvider(create: (context) => SwitchCubit()),
         BlocProvider(
           create: (context) => EditPersonalInfoCubit(
-              EditPersonalInfoRepository(), AnalyticsRepository()),
+            EditPersonalInfoRepository(),
+            AnalyticsRepository(),
+          ),
         ),
       ],
-      child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Add a child'),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      hintText: 'Child',
-                      border: InputBorder.none,
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<DropdownButtonCubit, DropdownButtonState>(
+            builder: (context, dropdownState) {
+              return BlocBuilder<SwitchCubit, SwitchState>(
+                builder: (context, switchState) {
+                  return Scaffold(
+                    appBar: AppBar(title: const Text('Add a child')),
+                    body: ChildForm(
+                      weightController: weightController,
+                      nameController: nameController,
+                      birthdayController: birthdayController,
+                      ageInDaysController: ageInDaysController,
+                      birthLenghtController: birthLenghtController,
+                      headSizeController: headSizeController,
+                      selectedSex: dropdownState.currentValue,
+                      isTwin: switchState.currentValue,
+                      onNameChanged: (value) => context
+                          .read<ControllerCubit>()
+                          .updateControllerText(value),
+                      onSexChanged: (value) => context
+                          .read<DropdownButtonCubit>()
+                          .updateDropdownValue(value),
+                      onTwinChanged: (value) => context
+                          .read<SwitchCubit>()
+                          .updateSwitchValue(value),
+                      onDateSelected: (date) => _handleDateSelection(date),
+                      onSave: () => _handleSave(context),
+                      onMeasurementTap: _showMeasurementDialog,
                     ),
-                    style: TextStyle(color: Colors.grey[800], fontSize: 32),
-                    enabled: false,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: TextFormField(
-                      controller: ageInDaysController,
-                      decoration: const InputDecoration(
-                        hintText: 'Age',
-                        border: InputBorder.none,
-                      ),
-                      style: TextStyle(color: Colors.grey[800], fontSize: 32),
-                      enabled: false,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  const Text('More information'),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 32),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            const Image(
-                              width: 32,
-                              height: 32,
-                              image: AssetImage("assets/icons/user.png"),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            const Text("Name:"),
-                            const Spacer(),
-                            SizedBox(
-                              width: 200,
-                              child:
-                                  BlocBuilder<ControllerCubit, ControllerState>(
-                                builder: (context, state) {
-                                  return TextFormField(
-                                    onChanged: (newValue) => context
-                                        .read<ControllerCubit>()
-                                        .updateControllerText(newValue),
-                                    controller: nameController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Enter a name...',
-                                      border: InputBorder.none,
-                                    ),
-                                    keyboardType: TextInputType.text,
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Image(
-                              width: 32,
-                              height: 32,
-                              image: AssetImage("assets/icons/sex.png"),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            const Text("Sex:"),
-                            const Spacer(),
-                            SizedBox(
-                              width: 200,
-
-                              //*DZIAŁA
-
-                              child: BlocBuilder<DropdownButtonCubit,
-                                  DropdownButtonState>(
-                                builder: (context, state) {
-                                  return DropdownButton(
-                                    onChanged: (dynamic value) => context
-                                        .read<DropdownButtonCubit>()
-                                        .updateDropdownValue(value),
-                                    value: sex = state.currentValue,
-                                    items: state.sex.map((item) {
-                                      return DropdownMenuItem(
-                                        value: item,
-                                        child: Text(item),
-                                      );
-                                    }).toList(),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Image(
-                              width: 32,
-                              height: 32,
-                              image: AssetImage("assets/icons/twins.png"),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            const Text("Twin?:"),
-                            const SizedBox(width: 25),
-                            BlocBuilder<SwitchCubit, SwitchState>(
-                              builder: (context, state) {
-                                return Switch(
-                                  value: twin = state.currentValue,
-                                  onChanged: (value) => context
-                                      .read<SwitchCubit>()
-                                      .updateSwitchValue(value),
-                                  activeColor: Colors.green,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Image(
-                              width: 32,
-                              height: 32,
-                              image:
-                                  AssetImage("assets/icons/happy-birthday.png"),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            const Text("Date of birth: "),
-                            Expanded(
-                              child: SizedBox(
-                                child: TextFormField(
-                                  controller: birthdayController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Enter a date of birth',
-                                    border: InputBorder.none,
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  onTap: () async {
-                                    await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2010),
-                                      lastDate: DateTime(2050),
-                                    ).then(
-                                      (selectedDate) {
-                                        if (selectedDate != null) {
-                                          birthdayController.text =
-                                              DateFormat('yyyy-MM-dd')
-                                                  .format(selectedDate);
-                                          ageInDaysController.text =
-                                              countDays(selectedDate);
-                                        }
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text("Measurments"),
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          const Image(
-                            width: 32,
-                            height: 32,
-                            image: AssetImage("assets/icons/weight.png"),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          const Text("Birth weight: "),
-                          Expanded(
-                            child: SizedBox(
-                              child: TextFormField(
-                                controller: weightController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter a weight',
-                                  border: InputBorder.none,
-                                ),
-                                keyboardType: TextInputType.text,
-                                onTap: () => _showDialog(
-                                  context,
-                                  weightController,
-                                  true,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Image(
-                            width: 32,
-                            height: 32,
-                            image: AssetImage("assets/icons/height.png"),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          const Text("Birth lenght: "),
-                          Expanded(
-                            child: SizedBox(
-                              child: TextFormField(
-                                controller: birthLenghtController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter a lenght',
-                                  border: InputBorder.none,
-                                ),
-                                keyboardType: TextInputType.text,
-                                onTap: () => _showDialog(
-                                    context, birthLenghtController, false),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Image(
-                            width: 32,
-                            height: 32,
-                            image: AssetImage("assets/icons/head-size.png"),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          const Text("Head size: "),
-                          Expanded(
-                            child: SizedBox(
-                              child: TextFormField(
-                                controller: headSizeController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter a head size',
-                                  border: InputBorder.none,
-                                ),
-                                keyboardType: TextInputType.text,
-                                onTap: () => _showDialog(
-                                    context, headSizeController, false),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                    ),
-                    onPressed: () async {
-                      context.read<EditPersonalInfoCubit>().saveData(
-                            name: nameController.text,
-                            birthday: DateTime.parse(birthdayController.text),
-                            weight: weightController.text,
-                            height: int.parse(birthLenghtController.text),
-                            headSize: int.parse(headSizeController.text),
-                            twin: twin,
-                            sex: sex,
-                          );
-                      //*TAK TERAZ DZIAŁA, TYLKO TRZEBA WSZYSTKIE STATE EMITOWAĆ, BO WCHODZI W INITIAL, CZYLI TYLKO ADDED JEST NA TRUE,
-                      //* A RESZTA RESETUJE STATE DO DEFAULT VALUE
-                      //* TEGO JUŻ NIE POTRZEBA
-                      // context.read<EditPersonalInfoCubit>().addedFlag();
-                      // print(context
-                      //     .read<EditPersonalInfoCubit>()
-                      //     .addedFlag().toString());
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Add a child'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
-}
 
-String countDays(DateTime selectedDate) {
-  String result = '';
-  int days = DateTime.now().difference(selectedDate).inDays;
-  if (days > 365) {
-    result = '${(days / 365).floor().toString()} Year(s)';
-  } else if (days > 30) {
-    result = '${(days / 30).floor().toString()} Month(s)';
-  } else if (days > 7) {
-    result = '${(days / 7).floor().toString()} Week(s)';
-  } else if (days > 1) {
-    result = '${(days / 1).floor().toString()} Day(s)';
+  void _handleDateSelection(DateTime? date) {
+    if (date != null) {
+      birthdayController.text = DateFormat('yyyy-MM-dd').format(date);
+      ageInDaysController.text = _countDays(date);
+    }
   }
-  return result;
-}
 
-void _showDialog(
-    BuildContext context, TextEditingController controller, bool weight) async {
-  await showDialog(
-    context: context,
-    builder: (context) => BlocProvider(
-      create: (context) => MeasurmentsCubit(),
-      child: CustomAlertDialog(
-        controller: controller,
-        weight: weight,
+  String _countDays(DateTime selectedDate) {
+    String result = '';
+    int days = DateTime.now().difference(selectedDate).inDays;
+    if (days > 365) {
+      result = '${(days / 365).floor().toString()} Year(s)';
+    } else if (days > 30) {
+      result = '${(days / 30).floor().toString()} Month(s)';
+    } else if (days > 7) {
+      result = '${(days / 7).floor().toString()} Week(s)';
+    } else if (days > 1) {
+      result = '${(days / 1).floor().toString()} Day(s)';
+    }
+    return result;
+  }
+
+  void _handleSave(BuildContext context) {
+    try {
+      context.read<EditPersonalInfoCubit>().saveData(
+            name: nameController.text,
+            birthday: DateTime.parse(birthdayController.text),
+            weight: weightController.text,
+            height: int.parse(birthLenghtController.text),
+            headSize: int.parse(headSizeController.text),
+            twin: context.read<SwitchCubit>().state.currentValue,
+            sex: context.read<DropdownButtonCubit>().state.currentValue,
+          );
+      Navigator.of(context).pop();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
+  }
+
+    void _showMeasurementDialog(
+    BuildContext context,
+    TextEditingController controller,
+    bool isWeight,
+  ) {
+    int value1 = 0;
+    int value2 = 0;
+    
+    if (controller.text.isNotEmpty) {
+      if (isWeight) {
+        final parts = controller.text.split('.');
+        value1 = int.tryParse(parts[0]) ?? 0;
+        value2 = parts.length > 1 ? (int.tryParse(parts[1]) ?? 0) : 0;
+      } else {
+        value2 = int.tryParse(controller.text) ?? 0;
+      }
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) => BlocProvider(
+        create: (context) => MeasurmentsCubit()
+          ..setTempSelectedValue1(value1)
+          ..setTempSelectedValue2(value2),
+        child: CustomAlertDialog(
+          controller: controller,
+          weight: isWeight,
+        ),
       ),
-    ),
-  );
-}
-
-class CustomAlertDialog extends StatelessWidget {
-  CustomAlertDialog({
-    Key? key,
-    required this.controller,
-    required this.weight,
-  }) : super(key: key);
-
-  final TextEditingController controller;
-  final bool weight;
-
-  final NumberFormat formatter = NumberFormat("00");
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<MeasurmentsCubit, MeasurmentsState>(
-      builder: (context, weightState) {
-        //* TEN STATE DZIAŁA JAK WYWOŁAMY CONTEXT.READ<WEIGHTCUBIT>().
-        //*  ALE NIE DZIAŁA JAK ZROBIMY COPYWITH, ZNOWU JAK NIE ZROBIMY COPYWITH, TO NIE AKTUALIZUJE SIĘ STATE
-        //* MOŻNA SPRÓBOWAĆ TERAZ USTAWIĆ TE WARTOŚĆI NA CUPERTINO...
-        return AlertDialog(
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (weight)
-                SizedBox(
-                  width: 100,
-                  height: 112,
-                  child: CupertinoPicker(
-                    itemExtent: 32,
-                    onSelectedItemChanged: (index) {
-                      context
-                          .read<MeasurmentsCubit>()
-                          .setTempSelectedValue1(index);
-                    },
-                    children: List<Widget>.generate(
-                      10,
-                      (index) => Text('$index'),
-                    ),
-                  ),
-                ),
-              SizedBox(
-                width: 100,
-                height: 112,
-                child: CupertinoPicker(
-                  itemExtent: 32,
-                  onSelectedItemChanged: (index) {
-                    context
-                        .read<MeasurmentsCubit>()
-                        .setTempSelectedValue2(index);
-                  },
-                  children: List<Widget>.generate(
-                    100,
-                    (index) => Text(formatter.format(index)),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                var newValues = weightState.copyWith(
-                  currentValue1: weightState.currentValue1,
-                  currentValue2: weightState.currentValue2,
-                );
-                // context
-                //     .read<MeasurmentsCubit>()
-                //     .updateValues(tempSelectedValue1, tempSelectedValue2);
-                // var newValues = weightState.copyWith(
-                //   currentValue1: tempSelectedValue1,
-                //   currentValue2: tempSelectedValue2,
-                // );
-                if (weight) {
-                  controller.text =
-                      '${newValues.currentValue1}${'${formatter.format(newValues.currentValue2)}0'}';
-                } else {
-                  controller.text = '${newValues.currentValue2}';
-                }
-                Navigator.of(context).pop();
-              },
-              child: const Text('Accept'),
-            ),
-          ],
-        );
-      },
     );
   }
 }
