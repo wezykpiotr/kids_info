@@ -160,7 +160,6 @@ class ChildForm extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Enter a weight',
               border: InputBorder.none,
-              suffixText: 'kg',
             ),
             onTap: () => onMeasurementTap(context, weightController, true),
           ),
@@ -173,7 +172,6 @@ class ChildForm extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Enter a length',
               border: InputBorder.none,
-              suffixText: 'cm',
             ),
             onTap: () => onMeasurementTap(context, birthLenghtController, false),
           ),
@@ -186,7 +184,6 @@ class ChildForm extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Enter a head size',
               border: InputBorder.none,
-              suffixText: 'cm',
             ),
             onTap: () => onMeasurementTap(context, headSizeController, false),
           ),

@@ -103,9 +103,9 @@ class AddChildPage extends StatelessWidget {
       context.read<EditPersonalInfoCubit>().saveData(
             name: nameController.text,
             birthday: DateTime.parse(birthdayController.text),
-            weight: weightController.text,
-            height: int.parse(birthLenghtController.text),
-            headSize: int.parse(headSizeController.text),
+            weight: weightController.text.replaceAll(' kg', ''),
+            height: int.parse(birthLenghtController.text.replaceAll(' cm', '')),
+            headSize: int.parse(headSizeController.text.replaceAll(' cm', '')),
             twin: context.read<SwitchCubit>().state.currentValue,
             sex: context.read<DropdownButtonCubit>().state.currentValue,
           );
@@ -126,14 +126,19 @@ class AddChildPage extends StatelessWidget {
     int value2 = 0;
     
     if (controller.text.isNotEmpty) {
+      final valueWithoutUnit = controller.text
+          .replaceAll(' kg', '')
+          .replaceAll(' cm', '');
+          
       if (isWeight) {
-        final parts = controller.text.split('.');
+        final parts = valueWithoutUnit.split('.');
         value1 = int.tryParse(parts[0]) ?? 0;
         value2 = parts.length > 1 ? (int.tryParse(parts[1]) ?? 0) : 0;
       } else {
-        value2 = int.tryParse(controller.text) ?? 0;
+        value2 = int.tryParse(valueWithoutUnit) ?? 0;
       }
     }
+
 
     showDialog(
       context: context,
