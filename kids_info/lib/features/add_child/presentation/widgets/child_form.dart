@@ -119,10 +119,15 @@ class ChildForm extends StatelessWidget {
         _buildInfoRow(
           icon: "assets/icons/twins.png",
           label: "Twin?:",
-          child: Switch(
-            value: isTwin,
-            onChanged: onTwinChanged,
-            activeColor: Colors.green,
+          child: SizedBox(
+            width: 200,
+            child: Align(alignment: Alignment.centerLeft,
+              child: Switch(
+                value: isTwin,
+                onChanged: onTwinChanged,
+                activeColor: Colors.green,
+              ),
+            ),
           ),
         ),
         _buildInfoRow(
