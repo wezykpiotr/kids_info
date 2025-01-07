@@ -63,9 +63,9 @@ class CustomAlertDialog extends StatelessWidget {
                 final formatter = NumberFormat('00');
                 if (weight) {
                   controller.text =
-                      '${state.currentValue1}.${formatter.format(state.currentValue2)}';
+                      '${state.currentValue1}.${formatter.format(state.currentValue2)} kg';
                 } else {
-                  controller.text = '${state.currentValue2}';
+                  controller.text = '${state.currentValue2} cm';
                 }
                 Navigator.of(context).pop();
               },
