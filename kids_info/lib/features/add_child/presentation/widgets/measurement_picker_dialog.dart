@@ -87,6 +87,7 @@ class CustomAlertDialog extends StatelessWidget {
       width: 50,
       child: CupertinoPicker(
         itemExtent: 32,
+        magnification: 1.2,
         scrollController:
             FixedExtentScrollController(initialItem: selectedItem),
         onSelectedItemChanged: onSelectedItemChanged,
