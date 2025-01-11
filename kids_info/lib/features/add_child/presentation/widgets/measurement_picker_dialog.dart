@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kids_info/features/add_child/presentation/cubit/measurments_cubit.dart';
+
+import 'measurement_picker.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   final TextEditingController controller;
@@ -25,32 +26,29 @@ class CustomAlertDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (weight) ...[
-                  _buildPicker(
-                    context,
-                    List.generate(10, (index) => index),
-                    (index) => context
+                  MeasurementPicker(
+                    items: List.generate(10, (index) => index),
+                    onSelectedItemChanged: (index) => context
                         .read<MeasurmentsCubit>()
                         .setTempSelectedValue1(index),
-                    state.currentValue1,
+                    selectedItem: state.currentValue1,
                   ),
                   const Text('.'),
-                  _buildPicker(
-                    context,
-                    List.generate(100, (index) => index),
-                    (index) => context
+                  MeasurementPicker(
+                    items: List.generate(100, (index) => index),
+                    onSelectedItemChanged: (index) => context
                         .read<MeasurmentsCubit>()
                         .setTempSelectedValue2(index),
-                    state.currentValue2,
+                    selectedItem: state.currentValue2,
                   ),
                   const Text('kg'),
                 ] else ...[
-                  _buildPicker(
-                    context,
-                    List.generate(100, (index) => index),
-                    (index) => context
+                  MeasurementPicker(
+                    items: List.generate(100, (index) => index),
+                    onSelectedItemChanged: (index) => context
                         .read<MeasurmentsCubit>()
                         .setTempSelectedValue2(index),
-                    state.currentValue2,
+                    selectedItem: state.currentValue2,
                   ),
                   const Text('cm'),
                 ],
@@ -74,25 +72,6 @@ class CustomAlertDialog extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-
-  Widget _buildPicker(
-    BuildContext context,
-    List<int> items,
-    Function(int) onSelectedItemChanged,
-    int selectedItem,
-  ) {
-    return SizedBox(
-      width: 50,
-      child: CupertinoPicker(
-        itemExtent: 32,
-        magnification: 1.2,
-        scrollController:
-            FixedExtentScrollController(initialItem: selectedItem),
-        onSelectedItemChanged: onSelectedItemChanged,
-        children: items.map((item) => Text(item.toString())).toList(),
-      ),
     );
   }
 }

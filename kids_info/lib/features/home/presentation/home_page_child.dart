@@ -364,32 +364,21 @@ class HomePageChild extends StatelessWidget {
                                           Expanded(
                                             child: TabBarView(
                                               children: [
-                                                if (personalInfo.isNotEmpty)
-                                                  PersonalInfo(
-                                                      id: personalInfo[index]
-                                                          .id),
-                                                if (personalInfo.isNotEmpty)
-                                                  AnalyticsInfoPage(
-                                                    id: analyticsItems[index]
-                                                        .id,
-                                                  ),
-                                                // if (analyticsItems.isNotEmpty)
-                                                //   AnalyticsInfoPage(
-                                                //       id: analyticsItems[index].id),
-                                                if (personalInfo.isNotEmpty)
+                                                if (personalInfo.isNotEmpty) ...[
+                                                  PersonalInfo(id: personalInfo[index].id),
+                                                  if (analyticsItems.isNotEmpty && index < analyticsItems.length)
+                                                    AnalyticsInfoPage(id: analyticsItems[index].id)
+                                                  else
+                                                    const Center(child: Text('No analytics data')),
                                                   const DocumentsInfoPage(),
-                                                if (personalInfo.isNotEmpty)
                                                   const AppointmentsInfoPage(),
-                                                if (personalInfo.isEmpty)
-                                                  const Text('no'),
-                                                if (personalInfo.isEmpty)
-                                                  const Text('no'),
-                                                if (personalInfo.isEmpty)
-                                                  const Text('no'),
-                                                if (personalInfo.isEmpty)
-                                                  const Text('no'),
+                                                ] else ...[
+                                                  const Center(child: Text('no')),
+                                                  const Center(child: Text('no')),
+                                                  const Center(child: Text('no')),
+                                                  const Center(child: Text('no')),
+                                                ],
                                               ],
-                                              // Text(tabBarviewM(analyticsItems).length.toString()),
                                             ),
                                           ),
                                         ],
